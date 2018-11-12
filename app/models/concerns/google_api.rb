@@ -9,10 +9,10 @@ module GoogleApi
       if validate_address(origin)
         results = create_new_array_of_zips(origin, ideal_duration_in_seconds, array_of_zips)
         if results.count == 0
-          results = "NO ZIPS FOUND - INCREASE COMMUTE TIME"
+          results = "NO ZIPS FOUND - PLEASE SPECIFY A NY ADDRESS"
         end
       else
-        results = "ERROR IN USER INPUT"
+        results = "NO ZIPS FOUND - PLEASE SPECIFY A NY ADDRESS"
       end
       results
     end
