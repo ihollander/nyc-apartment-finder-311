@@ -1,24 +1,29 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Models:
 
-Things you may want to cover:
+User
+Incident - name, location for mapping, created at, open or closed
+Borough - name
+UserBorough
 
-* Ruby version
+Find your neighbourhood
 
-* System dependencies
+1. User logs in or creates account
 
-* Configuration
+2. User enters work address to compute commute time.
 
-* Database creation
+3. user enters desired commute time
 
-* Database initialization
+- query db to find ideal zips.
 
-* How to run the test suite
+4. User selects from zips that are within commute time and what attributes are most desired
+@zips = Incident.select(:zip).distinct.limit(20)
+@criteria = some text we can translate using a switch statement to query Incidents
+- Checkboxlist: select (max 5) zip codes
+- 5 dropdowns of 'criteria' 
+- query db to find ideal location based on params (each )
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+6. Matched neighbourhood is returned with option to view other neighbourhoods and the attributes that stoped a match.
+- more info can be displayed etc..
+- charts for results

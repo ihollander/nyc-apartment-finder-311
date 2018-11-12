@@ -12,6 +12,7 @@ class CreateIncidents < ActiveRecord::Migration[5.2]
       t.boolean :status
       t.string :zip
       t.string :incident_address
+      t.string :city
 
       t.timestamps
     end

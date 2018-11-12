@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_09_221119) do
+ActiveRecord::Schema.define(version: 2018_11_09_220311) do
 
   create_table "agencies", force: :cascade do |t|
     t.string "name"
@@ -32,21 +32,6 @@ ActiveRecord::Schema.define(version: 2018_11_09_221119) do
     t.index ["agency_id"], name: "index_complaints_on_agency_id"
   end
 
-  create_table "csv_tables", force: :cascade do |t|
-    t.string "agency_name"
-    t.string "borough"
-    t.string "closed_date"
-    t.string "complaint_type"
-    t.string "created_date"
-    t.string "descriptor"
-    t.string "latitude"
-    t.string "longitude"
-    t.string "status"
-    t.string "resolution_description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "incidents", force: :cascade do |t|
     t.integer "complaint_id"
     t.integer "agency_id"
@@ -59,6 +44,7 @@ ActiveRecord::Schema.define(version: 2018_11_09_221119) do
     t.boolean "status"
     t.string "zip"
     t.string "incident_address"
+    t.string "city"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["agency_id"], name: "index_incidents_on_agency_id"

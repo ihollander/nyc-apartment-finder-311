@@ -13,7 +13,7 @@ class Incident < ApplicationRecord
     complaint = Complaint.find_or_create_by(name: row["Complaint Type"])
     date_opened_parsed = row["Created Date"] ? DateTime.strptime(row["Created Date"], date_format) : nil
     date_closed_parsed = row["Closed Date"] ? DateTime.strptime(row["Closed Date"], date_format) : nil
-    parsed_zip = row["Incident Zip"].length > 5 ? row["Incident Zip"][0..4] : row["Incident Zip"]
+    parsed_zip = row["Incident Zip"] && row["Incident Zip"].length > 5 ? row["Incident Zip"][0..4] : row["Incident Zip"]
     incident_hash = {
       agency: agency,
       borough: borough,
@@ -25,7 +25,8 @@ class Incident < ApplicationRecord
       longitude: row["Longitude"] ? row["Longitude"].to_f : nil,
       status: row["Status"] == "Open",
       zip: parsed_zip,
-      incident_address: row["Incident Address"]
+      incident_address: row["Incident Address"],
+      city: row["City"]
     }
     self.create(incident_hash)
   end
@@ -48,7 +49,8 @@ class Incident < ApplicationRecord
       longitude: api_hash.longitude ? api_hash.longitude.to_f : nil,
       status: api_hash.status == "Open",
       zip: parsed_zip,
-      incident_address: api_hash.incident_address
+      incident_address: api_hash.incident_address,
+      city: api_hash.city
     }
     self.create(incident_hash)
   end
