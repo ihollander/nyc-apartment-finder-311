@@ -9,8 +9,8 @@ class IncidentsController < ApplicationController
   # page for filtering incidents
   def search
     # zips = get from api(params["search"]["address"], params["search"]["minutes"])
-    zips = Incident.select(:zip).distinct.limit(20).map(&:zip) # change this to take from search criteria (distance allowed)
-    @cities = Incident.select(:city).order(:city).distinct.where(:zip => zips).map(&:city)
+    zips = Incident.select(:zip).distinct.map(&:zip).sample(20) # change this to take from search criteria (distance allowed)
+    @cities = Incident.get_cities_from_zips(zips)
   end
 
   # page for displaying results
@@ -22,11 +22,9 @@ class IncidentsController < ApplicationController
     cities.each do |city|
       incidents = Incident.by_city(city)
       @result_hash[city] = criteria.map do |criterion|
-        count_incidents = case criterion
-          when "Noise Pollution" then count_incidents = incidents.noise_pollution.count
-          when "Sanitation" then incidents.bad_sanitation.count
-          when "Food Safety" then incidents.food_safety.count
-        end
+        # average by neighborhood? or start at a certain number and + or - points for each condition
+        scope_method = Incident.criteria_hash[criterion]
+        count_incidents = incidents.send(scope_method).count
         { 
           criterion: criterion, 
           incidents: count_incidents 
@@ -38,7 +36,7 @@ class IncidentsController < ApplicationController
   private
 
   def set_criteria_options
-    @criteria_options = ["Noise Pollution", "Sanitation", "Food Safety"]
+    @criteria_options = Incident.criteria_hash.keys.sort
   end
 
   def set_minute_options

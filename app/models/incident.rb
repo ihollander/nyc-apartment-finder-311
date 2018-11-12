@@ -7,11 +7,51 @@ class Incident < ApplicationRecord
                     lat_column_name: :latitude,
                     lng_column_name: :longitude
 
+  # match criteria names (for dropdowns) to scope function names
+  def self.criteria_hash
+    {
+      "Noise Pollution" => :criteria_hash, 
+      "Sanitation" => :noise_pollution, 
+      "Food Safety" => :food_safety,
+      "Death Sentence (hazardous materials)" => :death_sentence,
+      "Bad Neighbors" => :bad_neighbors,
+      "Hip Neighborhood" => :hip_neighborhood,
+      "Air Quality" => :air_quality,
+      "Neighborhood Aesthetics" => :neighborhood_aesthetics,
+      "Utility Quality" => :utility_quality
+    }
+  end
+
   # scopes for easy querying!
+  scope :by_zips, -> (zips) { where(zip: zips) }
   scope :by_city, -> (city) { where(city: city) }
-  scope :bad_sanitation, -> { joins(:complaint).where(complaints: { name: ["Rodent", "Unsanitary Pigeon Condition"] } ) }
+  scope :bad_sanitation, -> { joins(:complaint).where(complaints: { name: ["Rodent", "Unsanitary Pigeon Condition", "Overflowing Litter Baskets", "Sewer", "UNSANITARY CONDITION"] } ) }
   scope :noise_pollution, -> { joins(:complaint).where("complaints.name LIKE ?", "%Noise%") }
   scope :food_safety, -> { joins(:complaint).where("complaints.name = ?", "Food Poisoning") }
+  scope :death_sentence, -> { joins(:complaint).where(complaints: { name: ["Lead", "Radioactive Material", "Asbestos", "Hazardous Materials", "Industrial Waste", "Mold"] } ) }
+  scope :bad_neighbors, -> { joins(:complaint).where(complaints: { name: ["Blocked Driveway", "Illegal Parking", "Noise", "Animal Abuse", "Drug Activity", "Illegal Fireworks", "Harboring Bees/Wasps"] } ) }
+  scope :hip_neighborhood, -> { joins(:complaint).where(complaints: { name: ["Graffiti", "Smoking", "Drug Activity", "Illegal Animal Kept as Pet", "Bike/Roller/Skate Chronic", "Beach/Pool/Sauna Complaint", "Tattooing"] } ) }
+  scope :air_quality, -> { joins(:complaint).where(complaints: { name: ["Smoking"] } ) }
+  scope :neighborhood_aesthetics, -> { joins(:complaint).where(complaints: { name: ["PAINT/PLASTER", "Street Light Condition"] } ) }
+  scope :utility_quality, -> { joins(:complaint).where(complaints: { name: ["HEAT/HOT WATER", "General Construction/Plumbing", "Sewer", "WATER LEAK", "Water System", "ELECTRIC"] } ) }
+  
+  # returns an array of city names as strings
+  def self.get_cities_from_zips(zips)
+    self.by_zips(zips).select(:city).order(:city).distinct.map(&:city)
+  end
+
+  # returns an array of city names as strings
+  def self.get_unique_zips
+    zips = self.select(:zip).order(:zip).distinct.map(&:zip)
+    parsed_zips = zips.select do |zip|
+      zip && zip != "N/A" && zip != "0"
+    end
+    parsed_zips.sample(20)
+  end
+
+  def self.check_zips_from_api(zips)
+
+  end
 
   # takes CSV row, parses data and saves to new Incident
   def self.create_from_csv_row(row, date_format)
