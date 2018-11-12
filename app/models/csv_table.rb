@@ -1,0 +1,2 @@
+class CsvTable < ApplicationRecord
+end

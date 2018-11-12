@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  complaint: one
+  agency: one
+  borough: one
+  date_opened: 2018-11-09 17:01:24
+  date_closed: 2018-11-09 17:01:24
+  descriptor: MyString
+  latitude: 1.5
+  longitude: 1.5
+  status: false
+
+two:
+  complaint: two
+  agency: two
+  borough: two
+  date_opened: 2018-11-09 17:01:24
+  date_closed: 2018-11-09 17:01:24
+  descriptor: MyString
+  latitude: 1.5
+  longitude: 1.5
+  status: false
