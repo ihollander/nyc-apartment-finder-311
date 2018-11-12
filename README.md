@@ -1,24 +1,30 @@
-# README
+1. User logs in or creates account
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+2. User enters work address to compute commute time.
 
-Things you may want to cover:
+3. user enters desired commute time
 
-* Ruby version
+ #### query db to find ideal zips.
 
-* System dependencies
+4. User selects from boroughs that are within commute time.
 
-* Configuration
+5. User selects from drop downs what attributes are most desired (5 selections)
 
-* Database creation
+ #### query db to find ideal location based on params
 
-* Database initialization
+6. Matched neighbourhood is returned with option to view other neighbourhoods and the attributes that stoped a match.
+#### more info can be displayed etc..
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+#### charts for results
 
-* Deployment instructions
+*BACK END*
 
-* ...
+#DONE
+
+ User enters work address to compute commute time.
+
+ user enters desired commute time
+
+ Build a method to find zips within commute time and return array of cities in selection box
+#TODO - get "city from zips to add to dropdown"

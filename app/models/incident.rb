@@ -1,4 +1,7 @@
 class Incident < ApplicationRecord
+
+  extend GoogleApiCommunicator
+
   belongs_to :complaint
   belongs_to :agency
   belongs_to :borough
@@ -29,7 +32,7 @@ class Incident < ApplicationRecord
     }
     self.create(incident_hash)
   end
-  
+
   def self.create_from_api(api_hash, date_format)
     agency = Agency.find_or_create_by(name: api_hash.agency_name)
     borough = Borough.find_or_create_by(name: api_hash.borough)
