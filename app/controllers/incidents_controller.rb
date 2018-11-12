@@ -8,9 +8,9 @@ class IncidentsController < ApplicationController
 
   # page for filtering incidents
   def search
-    # zips = get from api(params["search"]["address"], params["search"]["minutes"])
-    zips = Incident.select(:zip).distinct.map(&:zip).sample(20) # change this to take from search criteria (distance allowed)
-    @cities = Incident.get_cities_from_zips(zips)
+    address = params["search"]["address"]
+    minutes = params["search"]["minutes"].to_i
+    @cities = Incident.get_cities_from_valid_zips(address, minutes)
   end
 
   # page for displaying results

@@ -1,7 +1,5 @@
 class Incident < ApplicationRecord
 
-  extend GoogleApiCommunicator
-
   belongs_to :complaint
   belongs_to :agency
   belongs_to :borough
@@ -49,11 +47,13 @@ class Incident < ApplicationRecord
     parsed_zips = zips.select do |zip|
       zip && zip != "N/A" && zip != "0"
     end
-    parsed_zips.sample(20)
+    parsed_zips.sample(10) # this should be everything... limited to 10 for testing
   end
 
-  def self.check_zips_from_api(zips)
-
+  def self.get_cities_from_valid_zips(address, minutes)
+    old_zips = self.get_unique_zips
+    new_zips = GoogleApi::Communicator.validate_zip(address, minutes, old_zips)
+    self.get_cities_from_zips(new_zips)
   end
 
   # takes CSV row, parses data and saves to new Incident
