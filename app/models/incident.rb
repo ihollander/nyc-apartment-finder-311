@@ -7,6 +7,13 @@ class Incident < ApplicationRecord
                     lat_column_name: :latitude,
                     lng_column_name: :longitude
 
+  # scopes for easy querying!
+  scope :by_city, -> (city) { where(city: city) }
+  scope :bad_sanitation, -> { joins(:complaint).where(complaints: { name: ["Rodent", "Unsanitary Pigeon Condition"] } ) }
+  scope :noise_pollution, -> { joins(:complaint).where("complaints.name LIKE ?", "%Noise%") }
+  scope :food_safety, -> { joins(:complaint).where("complaints.name = ?", "Food Poisoning") }
+
+  # takes CSV row, parses data and saves to new Incident
   def self.create_from_csv_row(row, date_format)
     agency = Agency.find_or_create_by(name: row["Agency Name"])
     borough = Borough.find_or_create_by(name: row["Borough"])
@@ -26,18 +33,19 @@ class Incident < ApplicationRecord
       status: row["Status"] == "Open",
       zip: parsed_zip,
       incident_address: row["Incident Address"],
-      city: row["City"]
+      city: row["City"] ? row["City"].upcase : nil
     }
     self.create(incident_hash)
   end
   
+  # takes API data as Hashie, parses data and saves to new Incident
   def self.create_from_api(api_hash, date_format)
     agency = Agency.find_or_create_by(name: api_hash.agency_name)
     borough = Borough.find_or_create_by(name: api_hash.borough)
     complaint = Complaint.find_or_create_by(name: api_hash.complaint_type)
     date_opened_parsed = api_hash.created_date ? DateTime.strptime(api_hash.created_date, date_format) : nil
     date_closed_parsed = api_hash.closed_date ? DateTime.strptime(api_hash.closed_date, date_format) : nil
-    parsed_zip = api_hash.incident_zip.length > 5 ? api_hash.incident_zip[0..4] : api_hash.incident_zip
+    parsed_zip = api_hash.incident_zip && api_hash.incident_zip.length > 5 ? api_hash.incident_zip[0..4] : api_hash.incident_zip
     incident_hash = {
       agency: agency,
       borough: borough,
@@ -50,7 +58,7 @@ class Incident < ApplicationRecord
       status: api_hash.status == "Open",
       zip: parsed_zip,
       incident_address: api_hash.incident_address,
-      city: api_hash.city
+      city: api_hash.city ? api_hash.city.upcase : nil
     }
     self.create(incident_hash)
   end

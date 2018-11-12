@@ -55,10 +55,11 @@ if STDIN.gets.chomp.downcase == "y"
     puts "#{api_response.length} results returned from API, starting from #{api_response.first.created_date}\n"
     row_number = 1
     api_response.each do |incident_hash|
-      Incident.create_from_api_hash(incident_hash, api.date_format)
+      Incident.create_from_api(incident_hash, api.date_format)
       print "Incidents #{row_number} of #{api_response.length} seeded\r" if row_number % 100 == 0
       row_number += 1
     end
     last_incident_date = Incident.order(date_opened: :desc).first.date_opened
   end
+  puts "API seeding done!"
 end

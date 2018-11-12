@@ -1,0 +1,11 @@
+<h1>Results</h1>
+<% @result_hash.keys.each do |key| %>
+  <h2><%= key %></h2>
+  <% @result_hash[key].each do |incident| %>
+    <p>
+      Criteria: <%= incident[:criterion] %><br>
+      Incident Count: <%= incident[:incidents] %>
+    </p>
+  <% end %>
+  <hr>
+<% end %>
