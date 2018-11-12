@@ -7,21 +7,6 @@ class Incident < ApplicationRecord
                     lat_column_name: :latitude,
                     lng_column_name: :longitude
 
-  # match criteria names (for dropdowns) to scope function names
-  def self.criteria_hash
-    {
-      "Noise Pollution" => :criteria_hash, 
-      "Sanitation" => :noise_pollution, 
-      "Food Safety" => :food_safety,
-      "Death Sentence (hazardous materials)" => :death_sentence,
-      "Bad Neighbors" => :bad_neighbors,
-      "Hip Neighborhood" => :hip_neighborhood,
-      "Air Quality" => :air_quality,
-      "Neighborhood Aesthetics" => :neighborhood_aesthetics,
-      "Utility Quality" => :utility_quality
-    }
-  end
-
   # scopes for easy querying!
   scope :by_zips, -> (zips) { where(zip: zips) }
   scope :by_city, -> (city) { where(city: city) }
@@ -35,6 +20,21 @@ class Incident < ApplicationRecord
   scope :neighborhood_aesthetics, -> { joins(:complaint).where(complaints: { name: ["PAINT/PLASTER", "Street Light Condition"] } ) }
   scope :utility_quality, -> { joins(:complaint).where(complaints: { name: ["HEAT/HOT WATER", "General Construction/Plumbing", "Sewer", "WATER LEAK", "Water System", "ELECTRIC"] } ) }
   
+  # match criteria names (for dropdowns) to scope function names
+  def self.criteria_hash
+    {
+      "Noise Pollution" => :noise_pollution, 
+      "Sanitation" => :bad_sanitation, 
+      "Food Safety" => :food_safety,
+      "Death Sentence (hazardous materials)" => :death_sentence,
+      "Bad Neighbors" => :bad_neighbors,
+      "Hip Neighborhood" => :hip_neighborhood,
+      "Air Quality" => :air_quality,
+      "Neighborhood Aesthetics" => :neighborhood_aesthetics,
+      "Utility Quality" => :utility_quality
+    }
+  end
+
   # returns an array of city names as strings
   def self.get_cities_from_zips(zips)
     self.by_zips(zips).select(:city).order(:city).distinct.map(&:city)
