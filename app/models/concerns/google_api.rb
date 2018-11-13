@@ -11,7 +11,8 @@ module GoogleApi
         params: {
           key: API_KEY,
           origin: origin,
-          destination: destination
+          destination: destination,
+          mode: "transit"
         }
       )
     end
