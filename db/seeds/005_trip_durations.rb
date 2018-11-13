@@ -16,9 +16,21 @@ if STDIN.gets.chomp.downcase == "y"
     if STDIN.gets.chomp.downcase == "y"
       counter = 1
       journeys.each do |journey|
-        duration = journey.get_trip_duration
-        journey.trip_duration = duration
-        journey.save
+        # try public transit
+        duration = journey.get_trip_duration("TRANSIT")
+        # then driving
+        if !duration
+          duration = journey.get_trip_duration("DRIVING")
+        end
+        # then by zip...
+        if !duration
+          duration = journey.get_trip_duration_by_zip("TRANSIT")
+        end
+        
+        if duration
+          journey.trip_duration = duration
+          journey.save
+        end
         print "\rSeeded #{counter} of #{journeys_count}"
         counter += 1
       end

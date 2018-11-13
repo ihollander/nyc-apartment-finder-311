@@ -11,31 +11,21 @@ class IncidentsController < ApplicationController
     address = params["search"]["address"]
     minutes = params["search"]["minutes"].to_i
     # find neighborhood for address (origin)
+    # TODO: handle errors
     origin = Neighborhood.find_by_address(address)
     # check journeys table for journeys matching neighborhood_a
-    journeys = Journey.within_acceptable_duration(origin.id, minutes)
-    neighbor_ids = journeys.all.map(&:neighborhood_b_id)
-    @neighborhoods = Neighborhood.find_by(id: neighbor_ids)
+    # TODO: handle errors
+    neighborhood_ids = Journey.within_acceptable_duration(origin.id, minutes).map(&:neighborhood_b_id)
+    neighborhood_ids += Journey.within_acceptable_duration_reverse(origin.id, minutes).map(&:neighborhood_a_id)
+    @neighborhoods = Neighborhood.find(neighborhood_ids)
   end
 
   # page for displaying results
   def result
     # params["search"] = {"cities"=>["COLLEGE POINT", "GLEN OAKS"], "criteria"=>"Pollution"}
-    cities = params["search"]["cities"]
-    criteria = params["search"]["criteria"]
-    @result_hash = {}
-    cities.each do |city|
-      incidents = Incident.by_city(city)
-      @result_hash[city] = criteria.map do |criterion|
-        # average by neighborhood? or start at a certain number and + or - points for each condition
-        scope_method = Incident.criteria_hash[criterion]
-        count_incidents = incidents.send(scope_method).count
-        { 
-          criterion: criterion, 
-          incidents: count_incidents 
-        }
-      end
-    end
+    @criteria = params["search"]["criteria"]
+    neighborhood_ids = params["search"]["neighborhoods"]
+    @neighborhoods = Neighborhood.find(neighborhood_ids)
   end
 
   private

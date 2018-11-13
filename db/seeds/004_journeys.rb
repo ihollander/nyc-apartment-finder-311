@@ -15,7 +15,7 @@ if STDIN.gets.chomp.downcase == "y"
         end
       end
     end
-    puts "Neighborhood #{neighborhood_a.id} of #{total_neighborhoods} imported"
+    print "\rNeighborhood #{neighborhood_a.id} of #{total_neighborhoods} imported"
   end
   puts "Journies imported!"
 end

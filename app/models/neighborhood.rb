@@ -32,4 +32,8 @@ class Neighborhood < ApplicationRecord
     "#{self.center_latitude}, #{self.center_longitude}"
   end
 
+  def random_zip
+    self.incidents.count > 0 ? self.incidents.sample.zip : nil
+  end
+
 end

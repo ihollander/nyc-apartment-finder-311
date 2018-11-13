@@ -6,7 +6,7 @@ class Incident < ApplicationRecord
 
   # scopes for easy querying!
   scope :by_zips, -> (zips) { where(zip: zips) }
-  scope :by_city, -> (city) { where(city: city) }
+  scope :by_neighborhood, -> (neighborhood) { where(neighborhood: neighborhood) }
   scope :bad_sanitation, -> { joins(:complaint).where(complaints: { name: ["Rodent", "Unsanitary Pigeon Condition", "Overflowing Litter Baskets", "Sewer", "UNSANITARY CONDITION"] } ) }
   scope :noise_pollution, -> { joins(:complaint).where("complaints.name LIKE ?", "%Noise%") }
   scope :food_safety, -> { joins(:complaint).where("complaints.name = ?", "Food Poisoning") }
