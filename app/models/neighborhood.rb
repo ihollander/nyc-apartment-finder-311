@@ -11,6 +11,15 @@ class Neighborhood < ApplicationRecord
     } % [longitude, latitude])
   }
 
+  def self.find_by_address(address)
+    api_client = GoogleApi::MapsClient.new
+    json_response = api_client.geocode(address)
+    # get lat and long as floats
+    lat = json_response["results"][0]["geometry"]["location"]["lat"]
+    lng = json_response["results"][0]["geometry"]["location"]["lng"]
+    byebug
+  end
+
   def center_latitude
     self.geom.centroid.y
   end
