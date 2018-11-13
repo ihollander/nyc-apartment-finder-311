@@ -11,13 +11,18 @@ if STDIN.gets.chomp.downcase == "y"
   county = counties.keys[input - 1]
   if county
     journeys = Journey.joins(:neighborhood_a).joins(:neighborhood_b).where("neighborhoods.county = ? and neighborhood_bs_journeys.county = ? and journeys.trip_duration is null", county, county)
-    puts "This will seed data from the Google Maps API for #{journeys.count} routes. Continue? [y/n]"
+    journeys_count = journeys.count
+    puts "This will seed data from the Google Maps API for #{journeys_count} routes. Continue? [y/n]\n"
     if STDIN.gets.chomp.downcase == "y"
-      journeys.sample(5).each do |journey|
+      counter = 1
+      journeys.each do |journey|
         duration = journey.get_trip_duration
         journey.trip_duration = duration
         journey.save
+        print "\rSeeded #{counter} of #{journeys_count}"
+        counter += 1
       end
+      puts "\nDone seeding routes."
     end
   end
 end

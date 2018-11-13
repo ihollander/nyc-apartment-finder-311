@@ -10,11 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_13_163159) do
+ActiveRecord::Schema.define(version: 2018_11_13_165215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "agencies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "apartments", force: :cascade do |t|
     t.string "street"
@@ -27,12 +33,6 @@ ActiveRecord::Schema.define(version: 2018_11_13_163159) do
     t.integer "zillow_id"
     t.integer "value"
     t.boolean "price_change"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "agencies", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

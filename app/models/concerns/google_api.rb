@@ -4,7 +4,7 @@ module GoogleApi
   class MapsClient
     API_URL = "https://maps.googleapis.com"
 
-    def get_directions(origin, destination)
+    def get_directions(origin, destination, mode="TRANSIT")
       request(
         http_method: :get,
         endpoint: "/maps/api/directions/json",
@@ -12,7 +12,7 @@ module GoogleApi
           key: API_KEY,
           origin: origin,
           destination: destination,
-          mode: "transit"
+          mode: mode
         }
       )
     end

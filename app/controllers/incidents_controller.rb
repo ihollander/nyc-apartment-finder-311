@@ -11,11 +11,9 @@ class IncidentsController < ApplicationController
     address = params["search"]["address"]
     minutes = params["search"]["minutes"].to_i
     # find neighborhood for address (origin)
-    
-
+    origin = Neighborhood.find_by_address(address)
     # check journeys table for journeys matching neighborhood_a
-    # 
-    @cities = Incident.get_cities_from_valid_zips(address, minutes)
+    journeys = Journey.within_acceptable_duration(origin.id, minutes).neighborhood_b.map(&:name)
   end
 
   # page for displaying results

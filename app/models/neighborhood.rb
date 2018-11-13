@@ -17,7 +17,7 @@ class Neighborhood < ApplicationRecord
     # get lat and long as floats
     lat = json_response["results"][0]["geometry"]["location"]["lat"]
     lng = json_response["results"][0]["geometry"]["location"]["lng"]
-    byebug
+    self.find_by_lonlat(lng, lat).first
   end
 
   def center_latitude
