@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_13_031740) do
+ActiveRecord::Schema.define(version: 2018_11_13_163159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,17 @@ ActiveRecord::Schema.define(version: 2018_11_13_031740) do
     t.index ["agency_id"], name: "index_incidents_on_agency_id"
     t.index ["complaint_id"], name: "index_incidents_on_complaint_id"
     t.index ["neighborhood_id"], name: "index_incidents_on_neighborhood_id"
+  end
+
+  create_table "journeys", force: :cascade do |t|
+    t.integer "neighborhood_a_id"
+    t.integer "neighborhood_b_id"
+    t.integer "trip_duration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["neighborhood_a_id", "neighborhood_b_id"], name: "index_journeys_on_neighborhood_a_id_and_neighborhood_b_id", unique: true
+    t.index ["neighborhood_a_id"], name: "index_journeys_on_neighborhood_a_id"
+    t.index ["neighborhood_b_id"], name: "index_journeys_on_neighborhood_b_id"
   end
 
   create_table "neighborhoods", force: :cascade do |t|

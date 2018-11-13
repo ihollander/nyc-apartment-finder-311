@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :journeys
   resources :incidents, only: %i[index] do
     collection do
       get 'search'

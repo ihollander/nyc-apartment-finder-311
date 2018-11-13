@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  neighborhood_a_id: 
+  neighborhood_b_id: 
+  trip_duration: 1
+
+two:
+  neighborhood_a_id: 
+  neighborhood_b_id: 
+  trip_duration: 1

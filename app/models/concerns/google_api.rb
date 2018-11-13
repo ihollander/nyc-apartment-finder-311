@@ -1,7 +1,45 @@
 module GoogleApi
-  APP = Rails.application.credentials.google[:api_key]
+  API_KEY = Rails.application.credentials.google[:api_key]
   
-  class Communicator
+  class MapsClient
+    API_URL = "https://maps.googleapis.com"
+
+    def get_directions(origin, destination)
+      request(
+        http_method: :get,
+        endpoint: "/maps/api/directions/json",
+        params: {
+          key: API_KEY,
+          origin: origin,
+          destination: destination
+        }
+      )
+    end
+
+    def geocode(origin)
+      request(
+        http_method: :get,
+        endpoint: "/maps/api/geocode/json",
+        params: {
+          key: API_KEY,
+          address: origin
+        }
+      )
+    end
+
+    private
+
+    def client
+      Faraday.new(API_URL) do |client|
+        client.request :url_encoded
+        client.adapter Faraday.default_adapter
+      end
+    end
+
+    def request(http_method:, endpoint:, params: {})
+      response = client.public_send(http_method, endpoint, params)
+      Oj.load(response.body)
+    end
 
     def self.validate_zip(origin, ideal_duration, array_of_zips)
       ideal_duration_in_seconds = mins_to_seconds(ideal_duration)
@@ -16,8 +54,6 @@ module GoogleApi
       end
       results
     end
-  
-    private
     
     def self.trip_duration(origin, destination)
       puts "Calling api for #{destination}..."

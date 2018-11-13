@@ -4,10 +4,6 @@ class Incident < ApplicationRecord
   belongs_to :agency
   belongs_to :neighborhood
 
-  acts_as_mappable  default_units: :meters,
-                    lat_column_name: :latitude,
-                    lng_column_name: :longitude
-
   # scopes for easy querying!
   scope :by_zips, -> (zips) { where(zip: zips) }
   scope :by_city, -> (city) { where(city: city) }

@@ -76,3 +76,9 @@ gem 'soda-ruby', require: 'soda'
 # generates geojson files for mapping
 # https://github.com/rgeo/rgeo-geojson
 gem 'rgeo-geojson'
+
+# httpclient for API request handling
+gem 'faraday'
+
+# JSON parsing
+gem 'oj'
