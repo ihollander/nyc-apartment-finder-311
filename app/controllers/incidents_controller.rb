@@ -13,7 +13,9 @@ class IncidentsController < ApplicationController
     # find neighborhood for address (origin)
     origin = Neighborhood.find_by_address(address)
     # check journeys table for journeys matching neighborhood_a
-    journeys = Journey.within_acceptable_duration(origin.id, minutes).neighborhood_b.map(&:name)
+    journeys = Journey.within_acceptable_duration(origin.id, minutes)
+    neighbor_ids = journeys.all.map(&:neighborhood_b_id)
+    @neighborhoods = Neighborhood.find_by(id: neighbor_ids)
   end
 
   # page for displaying results
