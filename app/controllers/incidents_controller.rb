@@ -10,6 +10,11 @@ class IncidentsController < ApplicationController
   def search
     address = params["search"]["address"]
     minutes = params["search"]["minutes"].to_i
+    # find neighborhood for address (origin)
+    
+
+    # check journeys table for journeys matching neighborhood_a
+    # 
     @cities = Incident.get_cities_from_valid_zips(address, minutes)
   end
 
