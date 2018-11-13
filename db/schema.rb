@@ -16,6 +16,21 @@ ActiveRecord::Schema.define(version: 2018_11_13_163159) do
   enable_extension "plpgsql"
   enable_extension "postgis"
 
+  create_table "apartments", force: :cascade do |t|
+    t.string "street"
+    t.string "zipcode"
+    t.string "city"
+    t.string "state"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "url"
+    t.integer "zillow_id"
+    t.integer "value"
+    t.boolean "price_change"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "agencies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false

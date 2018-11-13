@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :journeys
+
+  resources :apartments
   resources :incidents, only: %i[index] do
     collection do
       get 'search'
