@@ -69,10 +69,10 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# Geo distance calculations
-# https://github.com/geokit/geokit-rails
-gem 'geokit-rails'
-
 # SODA API gem for Socrata
 # https://github.com/socrata/soda-ruby
 gem 'soda-ruby', require: 'soda'
+
+# generates geojson files for mapping
+# https://github.com/rgeo/rgeo-geojson
+gem 'rgeo-geojson'
