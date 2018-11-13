@@ -1,0 +1,24 @@
+<h1>Search By Incidents</h1>
+<p>
+  The following areas are within your desired commuting time.
+  Select up to five areas and criteria to see your matches.
+</p>
+<%= form_tag result_incidents_path, method: :get do %>
+  <%= label_tag "search[cities]", "Select up to 5 areas:" %>
+  <% @cities.each do |city| %>
+    <div>
+      <%= label_tag "search[cities][]", city %>
+      <%= check_box_tag "search[cities][]", city %>
+    </div>
+  <% end %>
+  <br>
+  <br>
+  <%= label_tag "search[criteria]", "Select up to 5 criteria:" %>
+  <% @criteria_options.each do |criteria| %>
+    <div>
+      <%= label_tag "search[criteria][]", criteria %>
+      <%= check_box_tag "search[criteria][]", criteria %>
+    </div>
+  <% end %>
+  <%= submit_tag "Search" %>
+<% end %>

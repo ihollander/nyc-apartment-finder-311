@@ -5,8 +5,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# Use postgresql as the database for Active Record
+gem 'pg', '>= 0.18', '< 2.0'
+# postgis adapter
+gem 'activerecord-postgis-adapter'
+
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -66,10 +69,16 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# Geo distance calculations
-# https://github.com/geokit/geokit-rails
-gem 'geokit-rails'
-
 # SODA API gem for Socrata
 # https://github.com/socrata/soda-ruby
 gem 'soda-ruby', require: 'soda'
+
+# generates geojson files for mapping
+# https://github.com/rgeo/rgeo-geojson
+gem 'rgeo-geojson'
+
+# httpclient for API request handling
+gem 'faraday'
+
+# JSON parsing
+gem 'oj'

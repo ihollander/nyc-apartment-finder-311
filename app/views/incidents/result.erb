@@ -1,0 +1,33 @@
+<h1>Results</h1>
+<div id="mapDiv"></div>
+<% @result_hash.keys.each do |key| %>
+  <h2><%= key %></h2>
+  <% @result_hash[key].each do |incident| %>
+    <p>
+      Criteria: <%= incident[:criterion] %><br>
+      Incident Count: <%= incident[:incidents] %>
+    </p>
+  <% end %>
+  <hr>
+<% end %>
+
+<script type="text/javascript">
+  var map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('mapDiv'), {
+      zoom: 4,
+      center: new google.maps.LatLng(40.712776, -74.005974), //centering on India
+      mapTypeId: 'terrain'
+    });
+    map.data.loadGeoJson("/geojson/neighborhood_id_1.json");
+    map.data.loadGeoJson("/geojson/neighborhood_id_2.json");
+    map.data.loadGeoJson("/geojson/neighborhood_id_3.json");
+    map.data.loadGeoJson("/geojson/neighborhood_id_4.json");
+  }
+</script>
+
+<script
+  async
+  defer
+  src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.google[:ian_api_key] %>&callback=initMap">
+</script>
