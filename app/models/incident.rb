@@ -16,12 +16,12 @@ class Incident < ApplicationRecord
   scope :air_quality, -> { joins(:complaint).where(complaints: { name: ["Smoking"] } ) }
   scope :neighborhood_aesthetics, -> { joins(:complaint).where(complaints: { name: ["PAINT/PLASTER", "Street Light Condition"] } ) }
   scope :utility_quality, -> { joins(:complaint).where(complaints: { name: ["HEAT/HOT WATER", "General Construction/Plumbing", "Sewer", "WATER LEAK", "Water System", "ELECTRIC"] } ) }
-  
+
   # match criteria names (for dropdowns) to scope function names
   def self.criteria_hash
     {
-      "Noise Pollution" => :noise_pollution, 
-      "Sanitation" => :bad_sanitation, 
+      "Noise Pollution" => :noise_pollution,
+      "Sanitation" => :bad_sanitation,
       "Food Safety" => :food_safety,
       "Death Sentence (hazardous materials)" => :death_sentence,
       "Bad Neighbors" => :bad_neighbors,
@@ -35,6 +35,11 @@ class Incident < ApplicationRecord
   # returns an array of city names as strings
   def self.get_cities_from_zips(zips)
     self.by_zips(zips).select(:city).order(:city).distinct.map(&:city)
+  end
+
+  def self.get_zips_from_neighborhoods(name)
+    self.joins(:neighborhood).select(:zip).where("neighborhoods.name = ?", name).distinct.map(&:zip)
+    #returns array of unique zips
   end
 
   # returns an array of city names as strings
@@ -81,7 +86,7 @@ class Incident < ApplicationRecord
       self.create(incident_hash)
     end
   end
-  
+
   # takes API data as Hashie, parses data and saves to new Incident
 
   def self.create_from_api(api_hash, date_format)
@@ -93,7 +98,7 @@ class Incident < ApplicationRecord
       date_opened_parsed = api_hash.created_date ? DateTime.strptime(api_hash.created_date, date_format) : nil
       date_closed_parsed = api_hash.closed_date ? DateTime.strptime(api_hash.closed_date, date_format) : nil
       parsed_zip = api_hash.incident_zip && api_hash.incident_zip.length > 5 ? api_hash.incident_zip[0..4] : api_hash.incident_zip
-      
+
       incident_hash = {
         agency: agency,
         neighborhood: neighborhood,

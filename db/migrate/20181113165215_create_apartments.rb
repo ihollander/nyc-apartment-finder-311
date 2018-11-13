@@ -11,6 +11,7 @@ class CreateApartments < ActiveRecord::Migration[5.2]
       t.integer :zillow_id
       t.integer :value
       t.boolean :price_change
+      t.integer :neighborhood_id
 
       t.timestamps
     end
