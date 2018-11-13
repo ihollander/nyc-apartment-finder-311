@@ -12,7 +12,7 @@ module GoogleApi
           results = "NO ZIPS FOUND - PLEASE SPECIFY A NY ADDRESS"
         end
       else
-        results = "NO ZIPS FOUND - PLEASE SPECIFY A NY ADDRESS"
+        results = "ERROR IN USER INPUT"
       end
       results
     end

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  county: MyString
+  regionid: MyString
+  geom: 
+
+two:
+  name: MyString
+  county: MyString
+  regionid: MyString
+  geom: 

@@ -1,4 +1,4 @@
 class Search < ApplicationRecord
   belongs_to :user
-  belongs_to :borough
+  belongs_to :neighborhood
 end
