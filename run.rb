@@ -1,66 +1,65 @@
-# APP = Rails.application.credentials.google[:api_key
-
+require 'active_support/core_ext/hash'  #from_xml
+require 'nokogiri'
 require 'rest-client'
-require 'JSON'
-require 'byebug'
 require 'pry'
 
-APP = "AIzaSyDIM5xL-G0OdfTHBNlj3Crg1lUjhHWCrhY"
 
+APP = "X1-ZWz189leskvfnv_7zykg"
 
-def trip_duration(origin, destination)
-  string = RestClient.get("https://maps.googleapis.com/maps/api/directions/json?origin=#{origin}&destination=#{destination}&key=#{APP}")
-  hash = JSON.parse(string)
-  hash["routes"][0]["legs"][0]["duration"]["value"]
-end
-
-def mins_to_seconds(mins)
-  mins *= 60
-end
-
-def validate_address(origin)
-  hash = geocode(origin)
-  result = []
-  answer = ""
-  if hash["results"].count != 0
-    hash["results"][0]["address_components"].find do |h|
-      result << true if h["short_name"].include?("NY")
+def array_of_addresses(neighbourhood, array_of_zips)
+  array = []
+  array_of_addresses_by_zips = api_hash(neighbourhood, array_of_zips)
+  array_of_addresses_by_zips.each do |hash|
+    hash["searchresults"]["response"]["results"]["result"].each do |r|
+      binding.pry
+      array << r["address"]
     end
-  else
-    answer = false
   end
-  if result[0] == true
-    answer = true
-  end
-  answer
+  array
 end
 
-def geocode(origin)
-  string = RestClient.get("https://maps.googleapis.com/maps/api/geocode/json?address=#{origin}&key=#{APP}")
-  hash = JSON.parse(string)
+def api_request(neighbourhood, zip)
+  response = RestClient.get("http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=#{APP}&address=#{neighbourhood}&citystatezip=#{zip}")
+  doc = Nokogiri::XML(response)
+  hash = Hash.from_xml(doc.to_s)
 end
 
-def create_new_array_of_zips(origin, ideal_duration_in_seconds, array_of_zips)
-  valid_zips = []
+def api_hash(neighbourhood, array_of_zips)
+  array_of_addresses_by_zips = []
   array_of_zips.each do |zip|
-    valid_zips << zip if trip_duration(origin, zip) <= ideal_duration_in_seconds
-  end
-  valid_zips
-end
-
-def validate_zip(origin, ideal_duration, array_of_zips)
-  ideal_duration_in_seconds = mins_to_seconds(ideal_duration)
-  results = ""
-  if validate_address(origin)
-    results = create_new_array_of_zips(origin, ideal_duration_in_seconds, array_of_zips)
-    if results.count == 0
-      results = "NO ZIPS FOUND - INCREASE COMMUTE TIME"
+    hash = api_request(neighbourhood, zip)
+    if validate_response(hash).class == "String"
+      puts  "error"
     end
-  else
-    results = "ERROR IN USER INPUT"
+    array_of_addresses_by_zips << hash
   end
-  results
+  array_of_addresses_by_zips
+end
+
+def validate_response(response)
+  response_code = response["searchresults"]["message"]["code"]
+  response_message = response["searchresults"]["message"]["text"]
+  validation_logic(response_code, response_message)
+end
+
+def validation_logic(code, message)
+  response_status = false
+  if code == "508" || code == "507"
+    "Error: no exact match found for input address"
+  elsif code == "508" || code == "507"
+    "Failed to resolve city/state (or zip code). message: #{message}"
+  elsif code == "3" || code == "4" || code == "505"
+    "The Zillow API is currently unavailable"
+  elsif code == "1"
+    "Service error: #{message}"
+  elseif code == "2"
+    "Invalid Zillow API key"
+  elsif code == "0"
+    "Request successfully processed"
+    response_status = true
+  end
 end
 
 
- validate_zip(10005, 10, [10000, 33139, 92651])
+array_of_addresses("financial district", [10005])
+# rails g resource apartment street zipcode city state latitude:float longitude:float url zillow_id:integer value:integer price_change:boolean
