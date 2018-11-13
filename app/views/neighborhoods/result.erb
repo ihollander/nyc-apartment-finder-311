@@ -1,0 +1,15 @@
+<h1>Results</h1>
+<% @neighborhoods.each do |neighborhood| %>
+  <h2><%= neighborhood.name %></h2>
+  <% @criteria.each do |criteria| %>
+    <% scope_method = Incident.criteria_hash[criteria] %>
+    <% incidents = neighborhood.incidents.send(scope_method) %>
+    <p>
+      Criteria: <%= criteria %><br>
+      Incident Count: <%= incidents.count %>
+    </p>
+  <% end %>
+  <hr>
+<% end %>
+
+<%= render partial: 'map', locals: { neighborhoods: @neighborhoods } %>

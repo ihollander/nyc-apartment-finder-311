@@ -3,12 +3,12 @@
   The following areas are within your desired commuting time.
   Select up to five areas and criteria to see your matches.
 </p>
-<%= form_tag result_incidents_path, method: :get do %>
-  <%= label_tag "search[cities]", "Select up to 5 areas:" %>
-  <% @cities.each do |city| %>
+<%= form_tag result_neighborhoods_path, method: :get do %>
+  <%= label_tag "search[neighborhoods]", "Select up to 5 neighborhoods:" %>
+  <% @neighborhoods.each do |neighborhood| %>
     <div>
-      <%= label_tag "search[cities][]", city %>
-      <%= check_box_tag "search[cities][]", city %>
+      <%= label_tag "search[neighborhoods][]", neighborhood.name %>
+      <%= check_box_tag "search[neighborhoods][]", neighborhood.id %>
     </div>
   <% end %>
   <br>
@@ -22,3 +22,5 @@
   <% end %>
   <%= submit_tag "Search" %>
 <% end %>
+
+<%= render partial: 'map', locals: { neighborhoods: @neighborhoods } %>
