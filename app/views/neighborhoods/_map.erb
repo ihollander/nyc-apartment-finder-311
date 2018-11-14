@@ -8,7 +8,8 @@
       mapTypeId: 'terrain'
     });
     <% neighborhoods.each do |neighborhood| %>
-      map.data.loadGeoJson("/geojson/neighborhood_id_<%= neighborhood.id %>.json");
+      map.data.loadGeoJson("<%= neighborhood.geojson %>");
+      //styling: find id from geojson and match...
     <% end %>
   }
 </script>
