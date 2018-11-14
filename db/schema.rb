@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 2018_11_14_185135) do
     t.integer "zillow_id"
     t.integer "value"
     t.boolean "price_change"
+    t.integer "sqft"
+    t.integer "bedrooms"
+    t.integer "bathrooms"
+    t.integer "year_built"
+    t.string "images", default: [], array: true
+    t.string "description"
+    t.integer "neighborhood_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
