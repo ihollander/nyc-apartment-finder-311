@@ -1,15 +1,30 @@
-<h1>Search Commute Time</h1>
-<p>
-  Enter your work address and commute time below.
-</p>
-<%= form_tag search_neighborhoods_path, method: :get do %>
-  <div>
-    <%= label_tag "search[address]", "Enter your work address:" %>
-    <%= text_area_tag "search[address]" %>
+<div style="max-width: 600px;margin:0 auto;">
+  <div class="ui centered grid">
+    <div class="column">
+      <div class="ui attached message">
+        <div class="header">
+          Search Commute Time
+        </div>
+        <p>Enter your work address and preferred commute time below.</p>
+      </div>
+      <%= form_tag search_neighborhoods_path, method: :get, class: "ui form attached fluid segment" do %>
+        <div class="field">
+          <%= label_tag "search[address]", "Work Address:" %>
+          <%= text_field_tag "search[address]", @default_address %>
+        </div>
+        <div class="field">
+          <%= label_tag "search[minutes]", "Commute Time:" %>
+          <%= collection_select :search, :minutes, @minute_options, :to_s, :to_s, {}, { class: "ui selection dropdown" } %>
+        </div>
+        <%= submit_tag 'Find Neighborhoods', class: "ui submit button" %>
+      <% end %>
+
+      <% if flash[:errors] %>
+        <%= render partial: 'shared/form_errors', locals: {
+          error_header: 'Search error',
+          error_messages: flash[:errors]
+        } %>
+      <% end %>
+    </div>
   </div>
-  <div>
-    <%= label_tag "search[minutes]", "Select an acceptable commute time:" %>
-    <%= collection_select :search, :minutes, @minute_options, :to_s, :to_s %>
-  </div>
-  <%= submit_tag "Search" %>
-<% end %>
+</div>
