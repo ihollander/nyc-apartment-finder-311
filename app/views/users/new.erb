@@ -1,36 +1,52 @@
-<h1 class="ui">Register for an account</h1>
-<p>Please include your work address so we can find appartments in your area!</p>
-<%= form_for @user, url: register_path, html: { class: "ui form" } do |f| %>
-  <div class="field">
-    <%= f.label :first_name, "First Name" %>
-    <%= f.text_field :first_name %>
-  </div>
-  <div class="field">
-    <%= f.label :last_name, "Last Name" %>
-    <%= f.text_field :last_name %>
-  </div>
-  <div class="field">
-    <%= f.label :username %>
-    <%= f.text_field :username %>
-  </div>
-  <div class="field">
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <div class="field">
-    <%= f.label :work_address %>
-    <%= f.text_area :work_address, rows: "2" %>
-  </div>
-  <%= submit_tag 'Create Account', class: "ui button" %>
-<% end %>
+<div style="max-width: 600px;margin:0 auto;">
+  <div class="ui centered grid">
+    <div class="column">
+      <div class="ui attached message">
+        <div class="header">
+          Create Account
+        </div>
+        <p>Please include your work address so we can find appartments in your area</p>
+      </div>
+      <%= form_for @user, url: register_path, html: { class: "ui form attached fluid segment" } do |f| %>
+        <div class="two fields">
+          <div class="field">
+            <%= f.label :first_name, "First Name" %>
+            <%= f.text_field :first_name %>
+          </div>
+          <div class="field">
+            <%= f.label :last_name, "Last Name" %>
+            <%= f.text_field :last_name %>
+          </div>
+        </div>
+        <div class="field">
+          <%= f.label :username %>
+          <%= f.text_field :username %>
+        </div>
+        <div class="field">
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+        </div>
+        <div class="field">
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation %>
+        </div>
+        <div class="field">
+          <%= f.label :work_address %>
+          <%= f.text_area :work_address, rows: "2" %>
+        </div>
+        <%= submit_tag 'Create Account', class: "ui submit button" %>
+      <% end %>
+      <div class="ui bottom attached warning message">
+        <i class="icon help"></i>
+        Already signed up? <%= link_to 'Login here', root_path %> instead.
+      </div>
 
-<% if flash[:errors] %>
-  <%= render partial: 'shared/form_errors', locals: {
-    error_header: 'Login error',
-    error_messages: flash[:errors]
-  } %>
-<% end %>
+      <% if flash[:errors] %>
+        <%= render partial: 'shared/form_errors', locals: {
+          error_header: 'Login error',
+          error_messages: flash[:errors]
+        } %>
+      <% end %>
+    </div>
+  </div>
+</div>

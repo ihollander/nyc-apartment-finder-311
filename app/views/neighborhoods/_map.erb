@@ -3,8 +3,8 @@
   var map;
   function initMap() {
     map = new google.maps.Map(document.getElementById('mapDiv'), {
-      zoom: 11,
-      center: new google.maps.LatLng(40.712776, -74.005974), //centering on NYC
+      zoom: 12,
+      center: new google.maps.LatLng(40.712776, -74.005974), //change to center on user address?
       mapTypeId: 'terrain'
     });
     <% neighborhoods.each do |neighborhood| %>
