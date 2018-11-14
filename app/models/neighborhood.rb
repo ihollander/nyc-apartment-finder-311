@@ -36,4 +36,9 @@ class Neighborhood < ApplicationRecord
     self.incidents.count > 0 ? self.incidents.sample.zip : nil
   end
 
+  # read geojson string and add properties for heatmap
+  def geojson
+    "/geojson/neighborhood_id_#{self.id}.json"
+  end
+
 end

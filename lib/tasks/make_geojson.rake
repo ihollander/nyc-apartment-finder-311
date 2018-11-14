@@ -14,6 +14,8 @@ namespace :make_geojson do
       feature = factory.feature s.geom
       puts 'Generating hash'
       hash = RGeo::GeoJSON.encode feature
+      hash["properties"][:neighborhood_id] = s.id
+      hash["properties"][:neighborhood_name] = s.name
       puts 'Writing JSON file'
       File.open("public/geojson/neighborhood_id_#{s.id}.json", 'w') { |file| file.write hash.to_json }
     end
