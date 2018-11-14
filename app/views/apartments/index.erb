@@ -1,15 +1,30 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <%= render "layout" %>
-    <ul>
-      <% @apartments.each do |a| %>
-      <li><%= link_to a.street, a %></li>
-      <% end  %>
-    </ul>
-  </body>
-</html>
+<div style="max-width: 600px;margin:0 auto;">
+<div class="ui items" style="padding-top:20px">
+
+  <% @apartments.each do |apartment| %>
+
+    <div class="item" style="padding:20px;background-color:#f8f8f9;border-radius:.28571429rem">
+      <div class="ui small image" >
+        <img src="<%= apartment.images.sample %>" style="max-height:110px">
+      </div>
+      <%= link_to apartment do %>
+      <div class="content" style="margin:20px">
+        <div class="header"><%= apartment.street %></div>
+        <div class="meta">
+          <span class="price"><%= apartment.parse_value(apartment.value) %></span>
+          <span class="stay"><%= apartment.city %></span>
+        </div>
+        <div class="meta">
+          <span class="price"><%= "#{apartment.bedrooms} Bed : #{apartment.bathrooms} Bath : #{apartment.sqft} sqft" %></span>
+        </div>
+        <div class="description">
+          <p></p>
+        </div>
+      </div>
+        <% end  %>
+    </div>
+
+
+
+  <% end %>
+  </div>

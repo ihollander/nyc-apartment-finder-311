@@ -15,18 +15,19 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
   </head>
 
   <body>
     <!--Page Contents-->
     <div class="pusher">
-      <!--Nav Header-->  
+      <!--Nav Header-->
       <%= render 'shared/layout/header' if logged_in? %>
       <!--Body-->  
       <div class="ui container" style="min-height: 600px;margin-top: 50px;">
         <%= yield %>
       </div>
-      <!--Footer-->  
+      <!--Footer-->
       <%= render 'shared/layout/footer' %>
     </div>
     <script>

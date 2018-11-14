@@ -5,18 +5,19 @@
     <title></title>
   </head>
   <body>
-    <!-- <h1>Apartment Show Page</h1> -->
 
-    <%# <%= render "layout" %> 
-<!-- add save apartment button  -->
+    <h1><%= "#{@bedrooms} #{@apartment.pluralize_bedroom(@bedrooms)} Apartment in #{@apartment.neighborhood.name}" %></h1>
+    <div class="ui large images">
 
+      <img class="ui rounded image" src="<%= @images[0] %>" alt="picture of property">
+    </div>
     <%= "#{@street}," %>
     <br>
     <%= "#{@city}," %>
     <br>
     <%= "#{@state}," %>
     <br>
-    <%= "#{@zipcode}," %>
+    <%= "#{@zipcode}" %>
     <br>
     <br>
     <%= "#{@bedrooms} #{@apartment.pluralize_bedroom(@bedrooms)} : #{@bathrooms} #{@apartment.pluralize_bathroom(@bathrooms)} : #{@sqft} sqft" %>
@@ -28,14 +29,9 @@
     <% end %>
 
     <br>
-
-    <% if @apartment.value?(@value) %>
     <br>
       Value: <%= "#{@apartment.parse_value(@value)}" %>
-    <% else %>
-    <br>
-      <%= "No price available for current listing" %>
-    <% end  %>
+
 
     <br>
     <br>
@@ -48,11 +44,7 @@
     <br>
     <br>
 
-    <% if @images %>
-      <% @images.each do |url| %>
-        <img src=<%= "#{url}" %> alt="">
-      <% end  %>
-    <% end  %>
+
 
     <br>
     <br>
@@ -66,6 +58,18 @@
     <br>
     <br>
     <%= link_to "View Full Page On Zillow", @apartment.url %>
+    <br>
+    <br>
+    <!-- test -->
+    <div class="ui three stackable cards">
+      <% @images.each do |url| %>
+      <div class="card" style="object-fit: cover">
+        <div class="image">
+          <img src="<%= url %>">
+        </div>
+      </div>
+      <% end %>
+    </div>
 
   </body>
 </html>
