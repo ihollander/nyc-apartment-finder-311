@@ -5,9 +5,9 @@ class Neighborhood < ApplicationRecord
   has_many :journeys_a, class_name: "Journey", foreign_key: "neighborhood_a_id"
   has_many :journeys_b, class_name: "Journey", foreign_key: "neighborhood_b_id"
 
-  scope :find_by_lonlat, -> (longitude, latitude) { 
-    where(%{ 
-      ST_Within(ST_SetSRID(ST_MakePoint(%f, %f),4326), geom) 
+  scope :find_by_lonlat, -> (longitude, latitude) {
+    where(%{
+      ST_Within(ST_SetSRID(ST_MakePoint(%f, %f),4326), geom)
     } % [longitude, latitude])
   }
 
