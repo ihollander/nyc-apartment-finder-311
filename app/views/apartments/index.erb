@@ -5,7 +5,7 @@
     <title></title>
   </head>
   <body>
-    <h1>Apartment Index Page</h1>
+    <%= render "layout" %>
     <ul>
       <% @apartments.each do |a| %>
       <li><%= link_to a.street, a %></li>

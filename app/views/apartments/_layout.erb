@@ -17,7 +17,7 @@
   <body>
     <div class="ui large top fixed hidden menu">
       <div class="ui container">
-        <a class="active item">Home</a><a class="item">Apartments</a><a class="item">Neighborhoods</a><a class="item">Careers</a>
+        <a class="active item">Apartments</a><a class="item">Neighborhoods</a><a class="item">Search</a><a class="item">Careers</a>
         <div class="right menu">
           <div class="item">
             <a class="ui button">Log in</a>
@@ -30,52 +30,127 @@
     </div>
     <!--Sidebar Menu-->
     <div class="ui vertical inverted sidebar menu">
-      <a class="active item">Home</a><a class="item">Apartments</a><a class="item">Neighborhoods</a><a class="item">Careers</a><a class="item">Login</a><a class="item">Signup</a>
+      <a class="active item">Apartments</a><a class="item">Neighborhoods</a><a class="item">Search</a><a class="item">Login</a><a class="item">Signup</a>
     </div>
     <!--Page Contents-->
     <div class="pusher">
       <div class="ui inverted vertical masthead center aligned segment">
         <div class="ui container">
           <div class="ui large secondary inverted pointing menu">
-            <a class="toc item"><i class="sidebar icon"></i></a><a class="active item">Home</a><a class="item">Apartments</a><a class="item">Neighborhoods</a><a class="item">Careers</a>
+            <a class="toc item"><i class="sidebar icon"></i></a><a class="active item">Apartments</a><a class="item">Neighborhoods</a><a class="item">Search</a>
             <div class="right item">
-              <a class="ui inverted button">Log in</a><a class="ui inverted button">Sign Up</a>
+              <a class="ui inverted button">My Profile</a><a class="ui inverted button">Log Out</a>
             </div>
           </div>
         </div>
 
-      <div class="ui four column grid">
-        <div class="column">
-          <div class="ui segment">
-            
+      <div style="margin-top:25px">
+
+        <div class="ui three column divided grid container">
+          <div class="row">
+
+            <div class="column" id="a-box" style="padding:40px" >
+            <%= link_to @apartments.first do%>
+              <p>
+                <%= @apartments.first.street %>
+                <br>
+                <%= @apartments.first.city %>
+                <br>
+                <%= @apartments.first.state %>
+                <br>
+                <%= @apartments.first.zipcode %>
+                <br>
+                <%= @apartments.first.city %>
+                <br>
+                <%= "#{@apartments[0].bedrooms} Bed : #{@apartments[0].bathrooms} Bath : #{@apartments[0].sqft} sqft" %>
+              </p>
+            <% end %>
+            </div>
+
+            <div class="column" id="a-box" style="padding:40px">
+              <p>
+                <%= @apartments[1].street %>
+                <br>
+                <%= @apartments[1].city %>
+                <br>
+                <%= @apartments[1].state %>
+                <br>
+                <%= @apartments[1].zipcode %>
+                <br>
+                <%= @apartments[1].city %>
+                <br>
+                <%= "#{@apartments[1].bedrooms} Bed : #{@apartments[1].bathrooms} Bath : #{@apartments[1].sqft} sqft" %>
+              </p>
+            </div>
+            <div class="column" id="a-box" style="padding:40px">
+              <p>
+                <%= @apartments[2].street %>
+                <br>
+                <%= @apartments[2].city %>
+                <br>
+                <%= @apartments[2].state %>
+                <br>
+                <%= @apartments[2].zipcode %>
+                <br>
+                <%= @apartments[2].city %>
+                <br>
+                <%= "#{@apartments[2].bedrooms} Bed : #{@apartments[2].bathrooms} Bath : #{@apartments[2].sqft} sqft" %>
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="column" id="a-box" style="padding:40px">
+              <p>
+                <%= @apartments[3].street %>
+                <br>
+                <%= @apartments[3].city %>
+                <br>
+                <%= @apartments[3].state %>
+                <br>
+                <%= @apartments[3].zipcode %>
+                <br>
+                <%= @apartments[3].city %>
+                <br>
+                <%= "#{@apartments[3].bedrooms} Bed : #{@apartments[3].bathrooms} Bath : #{@apartments[3].sqft} sqft" %>
+              </p>
+            </div>
+            <div class="column" id="a-box" style="padding:40px">
+              <p>
+                <%= @apartments[4].street %>
+                <br>
+                <%= @apartments[4].city %>
+                <br>
+                <%= @apartments[4].state %>
+                <br>
+                <%= @apartments[4].zipcode %>
+                <br>
+                <%= @apartments[4].city %>
+                <br>
+                <%= "#{@apartments[4].bedrooms} Bed : #{@apartments[4].bathrooms} Bath : #{@apartments[4].sqft} sqft" %>
+              </p>
+            </div>
+            <div class="column" id="a-box" style="padding:40px">
+              <p>
+                <%= @apartments[5].street %>
+                <br>
+                <%= @apartments[5].city %>
+                <br>
+                <%= @apartments[5].state %>
+                <br>
+                <%= @apartments[5].zipcode %>
+                <br>
+                <%= @apartments[5].city %>
+                <br>
+                <%= "#{@apartments[5].bedrooms} Bed : #{@apartments[5].bathrooms} Bath : #{@apartments[5].sqft} sqft" %>
+              </p>
+            </div>
           </div>
         </div>
-        <div class="column">
-          <div class="ui segment">
-            
-          </div>
-        </div>
-        <div class="column">
-          <div class="ui segment">
-            
-          </div>
-        </div>
-        <div class="column">
-          <div class="ui segment">
-            
-          </div>
-        </div>
+
       </div>
 
 
-        <div class="ui text container">
-          <h1 class="ui inverted header">
-            Apartment Show Page
-          </h1>
-          <h2>
-            View Apartment.
-          </h2>
-        </div>
+
 
 
       </div>
