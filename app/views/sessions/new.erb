@@ -1,0 +1,20 @@
+<h1 class="ui">Login</h1>
+<%= form_tag login_path, class: "ui form" do %>
+  <div class="field">
+    <%= label_tag :username %>
+    <%= text_field_tag :username %>
+  </div>
+  <div class="field">
+    <%= label_tag :password %>
+    <%= password_field_tag :password %>
+  </div>
+  <%= submit_tag 'Login', class: "ui button" %>
+  <%= link_to 'Create Account', register_path, class: "ui button" %>
+<% end %>
+
+<% if flash[:errors] %>
+  <%= render partial: 'shared/form_errors', locals: {
+    error_header: 'Login error',
+    error_messages: flash[:errors]
+  } %>
+<% end %>
