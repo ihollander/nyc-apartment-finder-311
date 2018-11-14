@@ -1,26 +1,34 @@
-<h1>Search By Incidents</h1>
-<p>
-  The following areas are within your desired commuting time.
-  Select up to five areas and criteria to see your matches.
-</p>
-<%= form_tag result_neighborhoods_path, method: :get do %>
-  <%= label_tag "search[neighborhoods]", "Select up to 5 neighborhoods:" %>
-  <% @neighborhoods.each do |neighborhood| %>
-    <div>
-      <%= label_tag "search[neighborhoods][]", neighborhood.name %>
-      <%= check_box_tag "search[neighborhoods][]", neighborhood.id %>
+<div class="ui grid">
+  <div class="eight wide column">
+    <div class="ui attached message">
+      <div class="header">
+        Search By Incidents
+      </div>
+      <p>
+        The following areas are within your desired commuting time.
+        Select up to five areas and criteria to see your matches.
+      </p>
     </div>
-  <% end %>
-  <br>
-  <br>
-  <%= label_tag "search[criteria]", "Select up to 5 criteria:" %>
-  <% @criteria_options.each do |criteria| %>
-    <div>
-      <%= label_tag "search[criteria][]", criteria %>
-      <%= check_box_tag "search[criteria][]", criteria %>
-    </div>
-  <% end %>
-  <%= submit_tag "Search" %>
-<% end %>
+    <%= form_tag result_neighborhoods_path, method: :get, class: "ui form attached fluid segment" do %>
+      <div class="field">
+        <%= label_tag "search[neighborhoods]", "Select up to 5 neighborhoods:" %>
+        <%= collection_select :search, :neighborhoods, @neighborhoods, :id, :name, {}, { class: "ui fluid search dropdown", multiple: "" } %>
+      </div>
+      <div class="field">
+        <%= label_tag "search[criteria]", "Select up to 5 criteria:" %>
+        <%= collection_select :search, :criteria, @criteria_options, :to_s, :to_s, {}, { class: "ui fluid search dropdown", multiple: "" } %>
+      </div>
+      <%= submit_tag "Search", class: "ui submit button" %>
+    <% end %>
 
-<%= render partial: 'map', locals: { neighborhoods: @neighborhoods } %>
+    <% if flash[:errors] %>
+      <%= render partial: 'shared/form_errors', locals: {
+        error_header: 'Search error',
+        error_messages: flash[:errors]
+      } %>
+    <% end %>
+  </div>
+  <div class="eight wide column">
+    <%= render partial: 'map', locals: { neighborhoods: @neighborhoods } %>
+  </div>
+</div>
