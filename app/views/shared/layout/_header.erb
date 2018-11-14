@@ -1,0 +1,14 @@
+<div id="top-nav-bar" class="ui inverted vertical center aligned segment">
+  <div class="ui container">
+    <div class="ui large secondary inverted pointing menu">
+      <a class="toc item"><i class="sidebar icon"></i></a>
+      <%= link_to 'Apartments', apartments_path, class: "item" %>
+      <%= link_to 'Neighborhoods', neighborhoods_path, class: "item" %>
+      <%= link_to 'Search', search_neighborhoods_path, class: "item" %>
+      <div class="right item" style="padding: 0;">
+        <%= link_to 'My Profile', profile_path, class: "item" %>
+        <%= link_to 'Log Out', logout_path, method: :delete, class: "item" %>
+      </div>
+    </div>
+  </div>
+</div>

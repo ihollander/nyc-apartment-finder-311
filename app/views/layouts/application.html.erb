@@ -5,23 +5,29 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
 
-    <script
-    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
     crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <% if logged_in? %>
-      <%= link_to "Logout", logout_path, method: :delete %>
-    <% end %>
-    <%= yield %>
+    <!--Page Contents-->
+    <div class="pusher">
+      <!--Nav Header-->  
+      <%= render 'shared/layout/header' if logged_in? %>
+      <!--Body-->  
+      <div class="ui container" style="min-height: 600px;">
+        <%= yield %>
+      </div>
+      <!--Footer-->  
+      <%= render 'shared/layout/footer' %>
+    </div>
   </body>
 </html>
