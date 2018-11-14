@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <!-- <h1>Apartment Show Page</h1> -->
+
+    <%= render "layout" %>
+<!-- add save apartment button  -->
+
+    <%= "#{@street}," %>
+    <br>
+    <%= "#{@city}," %>
+    <br>
+    <%= "#{@state}," %>
+    <br>
+    <%= "#{@zipcode}," %>
+    <br>
+    <br>
+    <%= "#{@bedrooms} #{@apartment.pluralize_bedroom(@bedrooms)} : #{@bathrooms} #{@apartment.pluralize_bathroom(@bathrooms)} : #{@sqft} sqft" %>
+
+    <% if @year_built %>
+    <br>
+    <br>
+      Year Built: <%= @year_built %>
+    <% end %>
+
+    <br>
+
+    <% if @apartment.value?(@value) %>
+    <br>
+      Value: <%= "#{@apartment.parse_value(@value)}" %>
+    <% else %>
+    <br>
+      <%= "No price available for current listing" %>
+    <% end  %>
+
+    <br>
+    <br>
+
+    <% if @description %>
+      Description:
+      <ol><%= @description %></ol>
+    <% end  %>
+
+    <br>
+    <br>
+
+    <% if @images %>
+      <% @images.each do |url| %>
+        <img src=<%= "#{url}" %> alt="">
+      <% end  %>
+    <% end  %>
+
+    <br>
+    <br>
+    <%= link_to "Back To All Apartments", apartments_path %>
+    <br>
+    <br>
+    <%= link_to "View Next", apartment_path(@apartment.id + 1) %>
+    <br>
+    <br>
+    <%= link_to "View Previous", apartment_path(@apartment.id - 1) %>
+    <br>
+    <br>
+    <%= link_to "View Full Page On Zillow", @apartment.url %>
+
+  </body>
+</html>

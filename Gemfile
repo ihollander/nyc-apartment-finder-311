@@ -82,3 +82,5 @@ gem 'faraday'
 
 # JSON parsing
 gem 'oj'
+
+gem 'chartkick'

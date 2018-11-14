@@ -7,14 +7,24 @@ module ZillowApi
     def get_listings(neighborhood, zip)
       request(
         http_method: :get,
-        endpoint: "/webservice/GetSearchResults.htm",
+        endpoint: "/webservice/GetDeepSearchResults.htm", #added "Deep" to url
         params: {
           "zws-id": APP,
           address: neighborhood,
           citystatezip: zip
         }
       )
+    end
 
+    def get_listing_details(id)
+      request(
+        http_method: :get,
+        endpoint: "/webservice/GetUpdatedPropertyDetails.htm",
+        params: {
+          "zws-id": APP,
+          zpid: id
+        }
+      )
     end
 
     private

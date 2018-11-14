@@ -1,5 +1,19 @@
 class Apartment < ApplicationRecord
     belongs_to :neighborhood
+    has_many :user_apartments, dependent: :destroy
+    has_many :users, through: :user_apartments
+
+    def self.find_or_create_from_api(neighborhood_name)
+      hash = self.find_listings_in_neighborhood(neighborhood_name)
+      listings = hash["searchresults"]["response"]["results"]["result"]
+      @neighborhood = Neighborhood.find_by(name: neighborhood_name)
+      listings.each do |listing|
+        apartment = Apartment.find_by(zillow_id: listing["zpid"])
+        if !apartment
+          create_apartment(listing)
+        end
+      end
+    end
 
     def self.find_listings_in_neighborhood(name)
       @client_communicator = ZillowApi::ListingClient.new
@@ -10,66 +24,74 @@ class Apartment < ApplicationRecord
       @listings
     end
 
-    def self.find_or_create_from_api(neighborhood_name)
-      hash = self.find_listings_in_neighborhood(neighborhood_name)
-      listings = hash["searchresults"]["response"]["results"]["result"]
-      @neighborhood = Neighborhood.find_by(name: neighborhood_name)
-      listings.each do |listing|
-        apartment Apartment.find_by(zillow_id: listing["zpid"])
-        unless apartment ### passed into array
-          listings_hash = {
-          street: listing["address"]["street"],
-          zipcode: listing["address"]["zipcode"],
-          city: listing["address"]["city"],
-          state: listing["address"]["state"],
-          latitude: listing["address"]["latitude"],
-          longitude: listing["address"]["longitude"],
-          url: listing["links"]["homedetails"],
-          value: listing["zestimate"]["amount"],
-          price_change: listing["zestimate"]["oneWeekChange"]["deprecated"],
-          zillow_id: listing["zpid"],
-          neighborhood_id: @neighborhood.id
-          }
-          apartment = Apartment.create(listings_hash)
+    def add_image_and_description
+      @second_communicator = ZillowApi::ListingClient.new
+      hash = @second_communicator.get_listing_details(self.zillow_id)
+      if pulic_data?(hash) && hash["updatedPropertyDetails"]["response"]["images"]
+        if hash["updatedPropertyDetails"]["response"]["images"]
+          self.images = hash["updatedPropertyDetails"]["response"]["images"]["image"]["url"]
+          self.description = hash["updatedPropertyDetails"]["response"]["homeDescription"]
         end
-        apartment
       end
-
-
-      # Apartment.find_by(zillow_id: )
-      #look through appartments to see if zillow id exists
-      #if doesnt exist then persist
     end
-    # def array_of_addresses(neighbourhood, array_of_zips)
-    #   array = []
-    #   array_of_addresses_by_zips = api_hash(neighbourhood, array_of_zips)
-    #   array_of_addresses_by_zips.each do |hash|
-    #     hash["searchresults"]["response"]["results"]["result"].each do |r|
-    #       binding.pry
-    #       array << r["address"]
-    #     end
-    #   end
-    #   array
-    # end
 
+    def pulic_data?(hash)
+      if hash["updatedPropertyDetails"]["message"]["code"] != "0"
+        false
+      else
+        true
+      end
+    end
 
-    # def api_hash(neighbourhood, array_of_zips)
-    #   array_of_addresses_by_zips = []
-    #   array_of_zips.each do |zip|
-    #     hash = api_request(neighbourhood, zip)
-    #     if validate_response(hash).class == "String"
-    #       puts  "error"
-    #     end
-    #     array_of_addresses_by_zips << hash
-    #   end
-    #   array_of_addresses_by_zips
-    # end
+    def self.create_apartment(listing)
+      listings_hash = {
+        street: listing["address"]["street"],
+        zipcode: listing["address"]["zipcode"],
+        city: listing["address"]["city"],
+        state: listing["address"]["state"],
+        latitude: listing["address"]["latitude"],
+        longitude: listing["address"]["longitude"],
+        url: listing["links"]["homedetails"],
+        value: listing["zestimate"]["amount"],
+        price_change: listing["zestimate"]["oneWeekChange"]["deprecated"],
+        zillow_id: listing["zpid"],
+        sqft: listing["finishedSqFt"],
+        bedrooms: listing["bedrooms"],
+        bathrooms: listing["bathrooms"],
+        year_built: listing["yearBuilt"],
+        neighborhood_id: @neighborhood.id
+      }
+      apartment = Apartment.new(listings_hash)
+      apartment.add_image_and_description
+      apartment.save if apartment.images.count != 0
+    end
 
-    # def validate_response(response)
-    #   response_code = response["searchresults"]["message"]["code"]
-    #   response_message = response["searchresults"]["message"]["text"]
-    #   validation_logic(response_code, response_message)
-    # end
+    def parse_value(value)
+      "$#{value.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}"
+    end
+
+    def pluralize_bedroom(item)
+      string = "Bedroom"
+      if item != 1
+        string = "Bedrooms"
+      end
+      string
+    end
+
+    def pluralize_bathroom(item)
+      string = "Bathroom"
+      if item != 1
+        "Bathrooms"
+      end
+      string
+    end
+
+    def value?(value)
+      !!value
+    end
+
+  end # end of apartment class
+
 
     # def validation_logic(code, message)
     #   response_status = false
@@ -88,7 +110,3 @@ class Apartment < ApplicationRecord
     #     response_status = true
     #   end
     # end
-
-
-
-end
