@@ -1,0 +1,14 @@
+<h1 class="ui"><%= @user.full_name %>'s Profile</h1>
+<h3>Username: </h3>
+<p><%= @user.username %></p>
+<h3 class="ui">Work Address: </h3>
+<p>
+  <%= @user.work_address %>
+</p>
+<%= link_to 'Edit Profile', edit_profile_path, class: "ui button" %>
+<h3>Saved Apartments:</h3>
+<ul>
+  <li>tk</li>
+  <li>tk</li>
+  <li>tk</li>
+</ul>

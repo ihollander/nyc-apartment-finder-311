@@ -1,0 +1,23 @@
+<h1 class="ui">Edit profile</h1>
+<%= form_for @user, url: edit_profile_path, method: :patch, html: { class: "ui form" } do |f| %>
+  <div class="field">
+    <%= f.label :first_name, "First Name" %>
+    <%= f.text_field :first_name %>
+  </div>
+  <div class="field">
+    <%= f.label :last_name, "Last Name" %>
+    <%= f.text_field :last_name %>
+  </div>
+  <div class="field">
+    <%= f.label :work_address %>
+    <%= f.text_area :work_address, rows: "2" %>
+  </div>
+  <%= submit_tag 'Update Profile', class: "ui button" %>
+<% end %>
+
+<% if flash[:errors] %>
+  <%= render partial: 'shared/form_errors', locals: {
+    error_header: 'Login error',
+    error_messages: flash[:errors]
+  } %>
+<% end %>
