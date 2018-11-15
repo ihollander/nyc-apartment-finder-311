@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'profile/edit', to: 'users#edit', as: 'edit_profile'
   patch 'profile/edit', to: 'users#update'
   get 'profile/apartments', to: 'users#apartments', as: 'user_apartments'
+  post 'profile/apartments', to: 'users#add_apartment'
 
   root to: 'sessions#welcome'
   get '/login', to: 'sessions#new', as: 'login'

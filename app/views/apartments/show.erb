@@ -100,23 +100,35 @@
     </div>
     <br>
 
-    <div class="ui divider">
-      <br>
-      <%= link_to "Save Listing", @apartment, class:"ui button primary" %>
-      <div class="" style="float:right">
-        <% if Apartment.find_by(id: (@apartment.id - 1)) && Apartment.find_by(id: (@apartment.id + 1))%>
-          <%= link_to "Prev", apartment_path(@apartment.id - 1), class:"ui button primary" %>
-          <%= link_to "Next", apartment_path(@apartment.id + 1), class:"ui button primary" %>
-        <% elsif Apartment.find_by(id: (@apartment.id - 1)) %>
-          <%= link_to "Prev", apartment_path(@apartment.id - 1), class:"ui button primary" %>
-          <button type="button" name="button" class="ui button primary" style="color:white">Next</button>
-        <% elsif Apartment.find_by(id: (@apartment.id + 1)) %>
-          <button type="button" name="button" class="ui button primary" style="color:white">Prev</button>
-          <%= link_to "Next", apartment_path(@apartment.id + 1), class:"ui button primary" %>
+    <div class="ui divider"></div>
+    <div class="ui grid">
+      <div class="four wide column">
+        <%= link_to "Save Listing", user_apartments_path(apartment_id: @apartment.id), method: :post, class:"ui button primary" %>
+      </div>
+      <div class="eight wide column">
+        <% if flash[:notice] %>
+          <div class="ui message">
+            <div class="header">
+              <%= flash[:notice] %>
+            </div>
+          </div>
         <% end %>
       </div>
+      <div class="four wide column">
+        <div class="" style="float:right">
+          <% if Apartment.find_by(id: (@apartment.id - 1)) && Apartment.find_by(id: (@apartment.id + 1))%>
+            <%= link_to "Prev", apartment_path(@apartment.id - 1), class:"ui button primary" %>
+            <%= link_to "Next", apartment_path(@apartment.id + 1), class:"ui button primary" %>
+          <% elsif Apartment.find_by(id: (@apartment.id - 1)) %>
+            <%= link_to "Prev", apartment_path(@apartment.id - 1), class:"ui button primary" %>
+            <button type="button" name="button" class="ui button primary" style="color:white">Next</button>
+          <% elsif Apartment.find_by(id: (@apartment.id + 1)) %>
+            <button type="button" name="button" class="ui button primary" style="color:white">Prev</button>
+            <%= link_to "Next", apartment_path(@apartment.id + 1), class:"ui button primary" %>
+          <% end %>
+        </div>
+      </div>
     </div>
-
 
     <script>
     var slideIndex = 1;

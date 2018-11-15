@@ -22,6 +22,16 @@ class NeighborhoodsController < ApplicationController
     @neighborhoods = @neighborhoods.sort_by do |n|
       n.commute_time(@user.neighborhood_id)
     end
+    @match_percentages = {}
+    @neighborhoods.each do |neighborhood|
+      percentages = @criteria.map do |criteria|
+        scope_method = Incident.criteria_hash[criteria.to_sym]["method"]
+        incidents = neighborhood.incidents.send(scope_method)
+        max_incidents = Incident.joins(:neighborhood).select("neighborhoods.name").send(scope_method).group("neighborhoods.name").count.max_by {|k,v| v}[1]
+        (1 - (incidents.count.to_f / max_incidents)) * 100
+      end
+      @match_percentages["#{neighborhood.id}"] = (percentages.reduce(:+) / percentages.count).to_i
+    end
   end
 
   private

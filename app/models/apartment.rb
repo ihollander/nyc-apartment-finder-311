@@ -107,6 +107,14 @@ class Apartment < ApplicationRecord
       !!value
     end
 
+    def next
+      self.class.where("id > ?", id).first
+    end
+  
+    def previous
+      self.class.where("id < ?", id).last
+    end
+
   end # end of apartment class
 
 
