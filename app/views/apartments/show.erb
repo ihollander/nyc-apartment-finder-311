@@ -7,10 +7,7 @@
   <body>
 
     <h1><%= "#{@bedrooms} #{@apartment.pluralize_bedroom(@bedrooms)} Apartment in #{@apartment.neighborhood.name}" %></h1>
-    <div class="ui large images">
 
-      <img class="ui rounded image" src="<%= @images[0] %>" alt="picture of property">
-    </div>
     <%= "#{@street}," %>
     <br>
     <%= "#{@city}," %>
@@ -44,6 +41,15 @@
     <br>
     <br>
 
+    <div class="ui three stackable cards">
+      <% @images.each do |url| %>
+      <div class="card" style="object-fit: cover">
+        <div class="image">
+          <img src="<%= url %>">
+        </div>
+      </div>
+      <% end %>
+    </div>
 
 
     <br>
@@ -61,15 +67,6 @@
     <br>
     <br>
     <!-- test -->
-    <div class="ui three stackable cards">
-      <% @images.each do |url| %>
-      <div class="card" style="object-fit: cover">
-        <div class="image">
-          <img src="<%= url %>">
-        </div>
-      </div>
-      <% end %>
-    </div>
 
   </body>
 </html>
