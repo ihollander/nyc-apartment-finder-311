@@ -1,30 +1,57 @@
-<div style="max-width: 600px;margin:0 auto;">
-  <div class="ui centered grid">
-    <div class="column">
-      <div class="ui attached message">
-        <div class="header">
-          Search Commute Time
-        </div>
-        <p>Enter your work address and preferred commute time below.</p>
+<div class="ui grid">
+  <div class="eight wide column">
+    <div class="ui attached message">
+      <div class="header">
+        Search By Incidents
       </div>
-      <%= form_tag search_neighborhoods_path, method: :get, class: "ui form attached fluid segment" do %>
-        <div class="field">
-          <%= label_tag "search[address]", "Work Address:" %>
-          <%= text_field_tag "search[address]", @default_address %>
-        </div>
-        <div class="field">
-          <%= label_tag "search[minutes]", "Commute Time:" %>
-          <%= collection_select :search, :minutes, @minute_options, :to_s, :to_s, {}, { class: "ui selection dropdown" } %>
-        </div>
-        <%= submit_tag 'Find Neighborhoods', class: "ui submit button" %>
-      <% end %>
-
-      <% if flash[:errors] %>
-        <%= render partial: 'shared/form_errors', locals: {
-          error_header: 'Search error',
-          error_messages: flash[:errors]
-        } %>
-      <% end %>
+      <p>
+        The following neighborhoods are within <%= @user.commute_time %> minutes of your work address, <%= @user.work_address %>.
+      </p>
+      <p>
+        Select up to <strong>five</strong> neighborhoods and <strong>five</strong> criteria to view additional details.
+      </p>
+      <p>
+        <%= link_to 'Edit your commuting preferences', edit_profile_path %> if you'd like to see other neighborhoods.
+      </p>
     </div>
+    <%= form_tag result_neighborhoods_path, method: :get, class: "ui form attached fluid segment" do %>
+      <div class="field">
+        <%= label_tag "search[neighborhoods]", "Select up to 5 neighborhoods:" %>
+        <%= collection_select :search, :neighborhoods, @neighborhoods, :id, :name, {}, { class: "ui fluid search dropdown", multiple: "" } %>
+      </div>
+      <div class="field">
+        <%= label_tag "search[criteria]", "Select up to 5 criteria:" %>
+        <%= collection_select :search, :criteria, @criteria_options, :to_s, :to_s, {}, { class: "ui fluid search dropdown", multiple: "" } %>
+      </div>
+      <%= submit_tag "Search", class: "ui submit button" %>
+    <% end %>
+
+    <% if flash[:errors] %>
+      <%= render partial: 'shared/form_errors', locals: {
+        error_header: 'Search error',
+        error_messages: flash[:errors]
+      } %>
+    <% end %>
+  </div>
+  <div class="eight wide column">
+    <%= render partial: 'map', locals: { neighborhoods: @neighborhoods } %>
   </div>
 </div>
+
+<script>
+  $('.ui.form')
+    .form({
+      fields: {
+        neighborhoods: {
+          identifier: 'search[neighborhoods]',
+          rules: [
+            {
+              type   : 'minCount[1]',
+              prompt : 'Please select at least 1 neighborhood'
+            }
+          ]
+        }
+      }
+    })
+  ;
+</script>

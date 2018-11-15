@@ -77,6 +77,10 @@ gem 'soda-ruby', require: 'soda'
 # https://github.com/rgeo/rgeo-geojson
 gem 'rgeo-geojson'
 
+# for generating overlays for Google static maps API
+# https://github.com/joshuaclayton/polylines
+gem 'polylines'
+
 # httpclient for API request handling
 gem 'faraday'
 

@@ -2,7 +2,8 @@ class ApartmentsController < ApplicationController
   before_action :find_apartment, only: [:show, :save_apartment]
 
   def index
-    @apartments = Apartment.all
+    neighborhood = params["neighborhood"]
+    @apartments = Apartment.find_or_create_from_api(neighborhood)
   end
 
   def show
