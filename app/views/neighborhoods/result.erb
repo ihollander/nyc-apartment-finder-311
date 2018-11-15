@@ -1,4 +1,7 @@
-<h1>Results</h1>
+<h2 class="ui horizontal divider header">
+  <i class="map icon"></i>
+  Results
+</h4>
 <div class="ui divided items">
   <% @neighborhoods.each do |neighborhood| %>
     <div class="item">
@@ -31,20 +34,18 @@
     </div>
   <% end %>
 </div>
-<h4 class="ui horizontal divider header">
+<h2 class="ui horizontal divider header">
   <i class="bar chart icon"></i>
   311 Incidents Report
 </h4>
-<div class="ui items grid">
+<div class="ui grid">
   <% @criteria.each do |criteria| %>
     <% scope_method = Incident.criteria_hash[criteria] %>
     <% chart_data = Incident.joins(:neighborhood).select("neighborhoods.name").send(scope_method).where(neighborhood: @neighborhoods).group("neighborhoods.name").count %>
-    <div class="eight wide column item">
-      <div class="content">
-        <div class="header"><%= criteria %></div>
-        <div class="description">
-          <%= bar_chart chart_data  %>
-        </div>
+    <div class="eight wide column">
+      <div class="ui center aligned segment">
+        <h4><%= criteria %></h3>
+        <%= bar_chart chart_data  %>
       </div>
     </div>
   <% end %>
