@@ -1,30 +1,35 @@
-<div style="max-width: 600px;margin:0 auto;">
+<!-- <div style="max-width: 600px;margin:0 auto;"> -->
+<h1>Results For <%= @apartments.sample.neighborhood.name %></h1>
 <div class="ui items" style="padding-top:20px">
-
-  <% @apartments.each do |apartment| %>
-
-    <div class="item" style="padding:20px;background-color:#f8f8f9;border-radius:.28571429rem">
-      <div class="ui small image" >
-        <img src="<%= apartment.images.sample %>" style="max-height:110px">
+  <div class="ui grid" >
+    <% @apartments.each do |apartment| %>
+      <div class="eight wide column">
+        <div class="item" style="padding:15px;background-color:#f8f8f9;border-radius:.28571429rem">
+          <%= link_to apartment do %>
+          <div class="ui right aligned grid">
+            <div class="left floated right aligned six wide column">
+              <div class="ui small image" >
+                <img src="<%= apartment.images.sample %>" style="max-height:110px">
+              </div>
+            </div>
+              <div class="right floated left aligned ten wide column">
+                <div class="content" style="margin:14px">
+                  <div class="header"><%= apartment.street %></div>
+                  <div class="meta">
+                    <span class="price"><%= apartment.city %></span>
+                  </div>
+                  <div class="meta">
+                    <span class="price"><%= apartment.parse_value(apartment.value) %></span>
+                  </div>
+                  <div class="meta">
+                    <span class="price"><%= "#{apartment.bedrooms} Bed : #{apartment.bathrooms} Bath : #{apartment.sqft} sqft" %></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end  %>
+        </div>
       </div>
-      <%= link_to apartment do %>
-      <div class="content" style="margin:20px">
-        <div class="header"><%= apartment.street %></div>
-        <div class="meta">
-          <span class="price"><%= apartment.parse_value(apartment.value) %></span>
-          <span class="stay"><%= apartment.city %></span>
-        </div>
-        <div class="meta">
-          <span class="price"><%= "#{apartment.bedrooms} Bed : #{apartment.bathrooms} Bath : #{apartment.sqft} sqft" %></span>
-        </div>
-        <div class="description">
-          <p></p>
-        </div>
-      </div>
-        <% end  %>
-    </div>
-
-
-
-  <% end %>
+    <% end %>
   </div>
+</div>

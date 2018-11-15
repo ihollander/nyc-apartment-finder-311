@@ -29,7 +29,14 @@ class Apartment < ApplicationRecord
       hash = @second_communicator.get_listing_details(self.zillow_id)
       if pulic_data?(hash) && hash["updatedPropertyDetails"]["response"]["images"]
         if hash["updatedPropertyDetails"]["response"]["images"]
-          self.images = hash["updatedPropertyDetails"]["response"]["images"]["image"]["url"]
+          # self.images = hash["updatedPropertyDetails"]["response"]["images"]["image"]["url"]
+          if hash["updatedPropertyDetails"]["response"]["images"]["image"]["url"].class == Array
+            hash["updatedPropertyDetails"]["response"]["images"]["image"]["url"].each do |url|
+              if test_image_size(url)
+                self.images << url
+              end
+            end
+          end
           self.description = hash["updatedPropertyDetails"]["response"]["homeDescription"]
         end
       end
@@ -63,11 +70,21 @@ class Apartment < ApplicationRecord
       }
       apartment = Apartment.new(listings_hash)
       apartment.add_image_and_description
-      apartment.save if apartment.images.count != 0
+      if apartment.images.count != 0
+        apartment.save
+      end
     end
 
     def parse_value(value)
       "$#{value.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}"
+    end
+
+    def test_image_size(url)
+      answer = true
+      if (FastImage.size(url)[1] * 1.332) >= FastImage.size(url)[0]
+        answer = false
+      end
+      answer
     end
 
     def pluralize_bedroom(item)
