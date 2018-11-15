@@ -9,7 +9,7 @@ class Incident < ApplicationRecord
   scope :by_neighborhood, -> (neighborhood) { where(neighborhood: neighborhood) }
   scope :bad_sanitation, -> { joins(:complaint).where(complaints: { name: ["Rodent", "Unsanitary Pigeon Condition", "Overflowing Litter Baskets", "Sewer", "UNSANITARY CONDITION"] } ) }
   scope :noise_pollution, -> { joins(:complaint).where("complaints.name LIKE ?", "%Noise%") }
-  scope :food_safety, -> { joins(:complaint).where("complaints.name = ?", "Food Poisoning") }
+  scope :food_safety, -> { left_outer_joins(:complaint).where("complaints.name = ?", "Food Poisoning") }
   scope :death_sentence, -> { joins(:complaint).where(complaints: { name: ["Lead", "Radioactive Material", "Asbestos", "Hazardous Materials", "Industrial Waste", "Mold"] } ) }
   scope :bad_neighbors, -> { joins(:complaint).where(complaints: { name: ["Blocked Driveway", "Illegal Parking", "Noise", "Animal Abuse", "Drug Activity", "Illegal Fireworks", "Harboring Bees/Wasps"] } ) }
   scope :hip_neighborhood, -> { joins(:complaint).where(complaints: { name: ["Graffiti", "Smoking", "Drug Activity", "Illegal Animal Kept as Pet", "Bike/Roller/Skate Chronic", "Beach/Pool/Sauna Complaint", "Tattooing"] } ) }

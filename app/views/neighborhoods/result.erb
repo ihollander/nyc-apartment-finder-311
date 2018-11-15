@@ -1,31 +1,46 @@
 <h2 class="ui horizontal divider header">
   <i class="map icon"></i>
   Results
-</h4>
+</h2>
+<p>
+  Here are your neighborhoods and the 311 incident information you 
+  requested.
+</p>
+<div class="ui divider"></div>
 <div class="ui divided items">
   <% @neighborhoods.each do |neighborhood| %>
     <div class="item">
-      <div class="image">
+      <div class="middle aligned image">
         <img src="<%= neighborhood.static_map_url %>">
       </div>
       <div class="content">
         <a class="header"><%= neighborhood.name %></a>
         <div class="meta">
-          <span class="cinema"><%= "#{neighborhood.county} County" %></span>
+          <div class="ui label">
+            <i class="map outline icon"></i>
+            <%= neighborhood.borough %>
+          </div>
+          <div class="ui label">
+            <i class="clock outline icon"></i>
+            <%= "#{neighborhood.commute_time(@user.neighborhood_id)} min. commute" %>
+          </div>
         </div>
         <div class="description">
-          <% @criteria.each do |criteria| %>
-            <% scope_method = Incident.criteria_hash[criteria] %>
-            <% incidents = neighborhood.incidents.send(scope_method) %>
-            <p>
-              Criteria: <%= criteria %><br>
-              Incident Count: <%= incidents.count %>
-            </p>
-          <% end %>
+          <table class="ui compact very basic celled table">
+            <tbody>
+              <% @criteria.each do |criteria| %>
+                <% scope_method = Incident.criteria_hash[criteria] %>
+                <% incidents = neighborhood.incidents.send(scope_method) %>
+                <tr>
+                  <td class="eight wide column"><%= criteria %></td>
+                  <td><%= incidents.count %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
         <div class="extra">
-          <div class="ui label"><i class="clock icon"></i><%= "#{neighborhood.commute_time(@user.neighborhood_id)} min. commute" %></div>
-          <%= link_to apartments_path(neighborhood: neighborhood.name), { class: "ui right floated primary button" } do %>
+          <%= link_to apartments_path(neighborhood: neighborhood.name), { class: "ui primary small button" } do %>
             View Apartments
             <i class="right chevron icon"></i>
           <% end %>
@@ -34,10 +49,16 @@
     </div>
   <% end %>
 </div>
+<br>
+<br>
 <h2 class="ui horizontal divider header">
   <i class="bar chart icon"></i>
-  311 Incidents Report
-</h4>
+  311 Incidents Comparison
+</h2>
+<p>
+  Based on your criteria, here is a comparison of 311 incident reports for 
+  each of your selected neighborhoods.
+</p>
 <div class="ui grid">
   <% @criteria.each do |criteria| %>
     <% scope_method = Incident.criteria_hash[criteria] %>
