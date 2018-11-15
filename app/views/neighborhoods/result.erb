@@ -1,15 +1,51 @@
 <h1>Results</h1>
-<% @neighborhoods.each do |neighborhood| %>
-  <h2><%= neighborhood.name %></h2>
+<div class="ui divided items">
+  <% @neighborhoods.each do |neighborhood| %>
+    <div class="item">
+      <div class="image">
+        <img src="<%= neighborhood.static_map_url %>">
+      </div>
+      <div class="content">
+        <a class="header"><%= neighborhood.name %></a>
+        <div class="meta">
+          <span class="cinema"><%= "#{neighborhood.county} County" %></span>
+        </div>
+        <div class="description">
+          <% @criteria.each do |criteria| %>
+            <% scope_method = Incident.criteria_hash[criteria] %>
+            <% incidents = neighborhood.incidents.send(scope_method) %>
+            <p>
+              Criteria: <%= criteria %><br>
+              Incident Count: <%= incidents.count %>
+            </p>
+          <% end %>
+        </div>
+        <div class="extra">
+          <div class="ui label"><i class="clock icon"></i><%= "#{neighborhood.commute_time(@user.neighborhood_id)} min. commute" %></div>
+          <%= link_to apartments_path(neighborhood: neighborhood.name), { class: "ui right floated primary button" } do %>
+            View Apartments
+            <i class="right chevron icon"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<h4 class="ui horizontal divider header">
+  <i class="bar chart icon"></i>
+  311 Incidents Report
+</h4>
+<div class="ui items grid">
   <% @criteria.each do |criteria| %>
     <% scope_method = Incident.criteria_hash[criteria] %>
-    <% incidents = neighborhood.incidents.send(scope_method) %>
-    <p>
-      Criteria: <%= criteria %><br>
-      Incident Count: <%= incidents.count %>
-    </p>
+    <% chart_data = Incident.joins(:neighborhood).select("neighborhoods.name").send(scope_method).where(neighborhood: @neighborhoods).group("neighborhoods.name").count %>
+    <div class="eight wide column item">
+      <div class="content">
+        <div class="header"><%= criteria %></div>
+        <div class="description">
+          <%= bar_chart chart_data  %>
+        </div>
+      </div>
+    </div>
   <% end %>
-  <hr>
-<% end %>
-
-<%= render partial: 'map', locals: { neighborhoods: @neighborhoods } %>
+</div>

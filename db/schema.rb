@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_14_185135) do
+ActiveRecord::Schema.define(version: 2018_11_15_142910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,13 +33,6 @@ ActiveRecord::Schema.define(version: 2018_11_14_185135) do
     t.integer "zillow_id"
     t.integer "value"
     t.boolean "price_change"
-    t.integer "sqft"
-    t.integer "bedrooms"
-    t.integer "bathrooms"
-    t.integer "year_built"
-    t.string "images", default: [], array: true
-    t.string "description"
-    t.integer "neighborhood_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -121,6 +114,9 @@ ActiveRecord::Schema.define(version: 2018_11_14_185135) do
     t.string "work_address"
     t.float "latitude"
     t.float "longitude"
+    t.integer "commute_time", default: 15
+    t.integer "neighborhood_id"
+    t.index ["neighborhood_id"], name: "index_users_on_neighborhood_id"
   end
 
   add_foreign_key "complaints", "agencies"

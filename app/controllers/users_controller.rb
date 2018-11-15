@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :authorized, only: [:new, :create]
   before_action :current_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_minute_options, only: [:new, :edit]
 
   # get '/register'
   def new
@@ -56,10 +57,14 @@ class UsersController < ApplicationController
       :username, 
       :password,
       :password_confirmation,
-      :work_address
+      :work_address,
+      :commute_time
     )
   end
 
+  def set_minute_options
+    @minute_options = [15,30,45,60]
+  end
 end
 
 # 

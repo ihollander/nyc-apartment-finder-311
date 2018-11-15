@@ -8,6 +8,7 @@
         <p>Please include your work address so we can find appartments in your area</p>
       </div>
       <%= form_for @user, url: register_path, html: { class: "ui form attached fluid segment" } do |f| %>
+        <h4 class="ui dividing header">Account Information</h4>
         <div class="two fields">
           <div class="field">
             <%= f.label :first_name, "First Name" %>
@@ -30,9 +31,14 @@
           <%= f.label :password_confirmation %>
           <%= f.password_field :password_confirmation %>
         </div>
+        <h4 class="ui dividing header">Commuting Information</h4>
         <div class="field">
-          <%= f.label :work_address %>
+          <%= f.label :work_address, "Current Work Address:" %>
           <%= f.text_area :work_address, rows: "2" %>
+        </div>
+        <div class="field">
+          <%= f.label :commute_time, "Desired Commute Time:" %>
+          <%= f.collection_select :commute_time, @minute_options, :to_s, :to_s, {}, { class: "ui selection dropdown" } %>
         </div>
         <%= submit_tag 'Create Account', class: "ui submit button" %>
       <% end %>
