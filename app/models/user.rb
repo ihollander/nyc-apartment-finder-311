@@ -28,7 +28,6 @@ class User < ApplicationRecord
     api_client = GoogleApi::MapsClient.new
     response_json = api_client.geocode(work_address)
     if response_json && response_json["status"] != "ZERO_RESULTS"
-      byebug
       neighborhood = Neighborhood.find_by_address(response_json["results"][0]["formatted_address"])
       if neighborhood
         # call super to override setter method...

@@ -24,22 +24,28 @@
             <i class="clock outline icon"></i>
             <%= "#{neighborhood.commute_time(@user.neighborhood_id)} min. commute" %>
           </div>
+          <div class="ui label">
+            <%= p "#{@match_percentages[neighborhood.id.to_s]} % match" %>
+          </div>
         </div>
         <div class="description">
           <table class="ui compact very basic celled table">
             <thead>
               <tr>
                 <th>Type</th>
-                <th>Number</th>
+                <th>Count</th>
+                <th>Percent Match</th>
               </tr>
             </thead>
             <tbody>
               <% @criteria.each do |criteria| %>
                 <% scope_method = Incident.criteria_hash[criteria.to_sym]["method"] %>
                 <% incidents = neighborhood.incidents.send(scope_method) %>
+                <% max = Incident.joins(:neighborhood).select("neighborhoods.name").send(scope_method).group("neighborhoods.name").count.max_by {|k,v| v} %>
                 <tr>
                   <td class="eight wide column"><%= Incident.criteria_hash[criteria.to_sym]["show_alias"] %></td>
                   <td><%= incidents.count %></td>
+                  <td><%= (1 - (incidents.count.to_f / max[1])) * 100 %></td>
                 </tr>
               <% end %>
             </tbody>

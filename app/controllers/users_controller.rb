@@ -43,7 +43,18 @@ class UsersController < ApplicationController
   end
 
   def apartments
-    # todo: add saved apartments view
+    @apartments = @user.apartments
+  end
+
+  def add_apartment
+    @apartment = Apartment.find_by(id: params["apartment_id"])
+    user_apartment = UserApartment.create(user: @user, apartment: @apartment)
+    if user_apartment.valid?
+      flash[:notice] = "Apartment saved."
+    else
+      flash[:notice] = "Error saving apartment."
+    end
+    redirect_to @apartment
   end
 
   # delete '/profile'
