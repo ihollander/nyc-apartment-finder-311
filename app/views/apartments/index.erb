@@ -19,7 +19,11 @@
                     <span class="price"><%= apartment.city %></span>
                   </div>
                   <div class="meta">
-                    <span class="price"><%= apartment.parse_value(apartment.value) %></span>
+                    <% if apartment.value %>
+                    <span class="price" style="color:#9ACD32"><%= apartment.parse_value(apartment.value) %></span>
+                    <% else %>
+                    <span class="price">Price On Request</span>
+                    <% end  %>
                   </div>
                   <div class="meta">
                     <span class="price"><%= "#{apartment.bedrooms} Bed : #{apartment.bathrooms} Bath : #{apartment.sqft} sqft" %></span>

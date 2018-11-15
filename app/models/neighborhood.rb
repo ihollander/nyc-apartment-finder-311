@@ -26,6 +26,7 @@ class Neighborhood < ApplicationRecord
   end
 
   def center_latitude
+    byebug
     self.geom.centroid.y
   end
 
@@ -67,4 +68,3 @@ class Neighborhood < ApplicationRecord
   end
 
 end
-
