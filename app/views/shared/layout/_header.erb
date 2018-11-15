@@ -1,9 +1,9 @@
 <div id="top-nav-bar" class="ui inverted vertical center aligned segment">
   <div class="ui container">
     <div class="ui large secondary inverted pointing menu">
-      <div class="header item">
+      <%= link_to root_path, class: "header item" do %>
         NYC<i class="small red heart icon"></i>311 Apartment Finder
-      </div>
+      <% end %>
       <%= link_to apartments_path, class: "item" do %>
         <i class="building icon"></i>
         Apartments

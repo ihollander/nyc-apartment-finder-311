@@ -24,12 +24,11 @@
     <div class="pusher">
 
       <% if logged_in? %>
-        <!--Nav Header-->
-        <%= render 'shared/layout/header' %>
-        <!--Body-->
-        <div class="ui container" style="min-height: 600px;margin-top: 50px;">
-        <div style="max-width: 900px;margin:0 auto">
-
+          <!--Nav Header-->
+          <%= render 'shared/layout/header' %>
+          <!--Body-->
+          <div class="ui container" style="min-height: 600px;margin: 50px auto;">
+          <div style="max-width: 900px;margin:0 auto">
           <%= yield %>
         </div>
       </div>  

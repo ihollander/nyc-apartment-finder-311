@@ -165,7 +165,7 @@ h1, h2, h3, h4, h5 {
 }
 
 /* Caption text */
-.text {
+/* .text {
   color: #f2f2f2;
   font-size: 15px;
   padding: 8px 12px;
@@ -173,7 +173,7 @@ h1, h2, h3, h4, h5 {
   bottom: 8px;
   width: 100%;
   text-align: center;
-}
+} */
 
 /* Number text (1/3 etc) */
 .numbertext {

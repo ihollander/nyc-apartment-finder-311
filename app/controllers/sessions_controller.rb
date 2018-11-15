@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :authorized
-  skip_before_action :current_user
+  # skip_before_action :current_user
 
   # get '/'
   def welcome

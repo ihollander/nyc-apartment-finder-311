@@ -20,15 +20,38 @@ class Incident < ApplicationRecord
   # match criteria names (for dropdowns) to scope function names
   def self.criteria_hash
     {
-      "Noise Pollution" => :noise_pollution,
-      "Sanitation" => :bad_sanitation,
-      "Food Safety" => :food_safety,
-      "Death Sentence (hazardous materials)" => :death_sentence,
-      "Bad Neighbors" => :bad_neighbors,
-      "Hip Neighborhood" => :hip_neighborhood,
-      "Air Quality" => :air_quality,
-      "Neighborhood Aesthetics" => :neighborhood_aesthetics,
-      "Utility Quality" => :utility_quality
+      "Noise Levels": {
+        "method" => :noise_pollution,
+        "show_alias" => "Noise Complaints"
+      },
+      "Sanitary Conditions": {
+        "method" => :bad_sanitation,
+        "show_alias" => "Sanitation Complaints"
+      },
+      "Food Safety": {
+        "method" => :food_safety,
+        "show_alias" => "Food Poisoning Counts"
+      },
+      "Safe Environment": {
+        "method" => :death_sentence,
+        "show_alias" => "Hazardous Materials Found"
+      },
+      "Good Neighbors": {
+        "method" => :bad_neighbors,
+        "show_alias" => "Antisocial Behavior Complaints"
+      },
+      "Neighborhood Aesthetics": {
+        "method" => :neighborhood_aesthetics,
+        "show_alias" => "Aesthetic Maintenance Complaints"
+      },
+      "Air Quality": {
+        "method" => :air_quality,
+        "show_alias" => "Air Quality Complaints"
+      },
+      "Utility Quality": {
+        "method" => :utility_quality,
+        "show_alias" => "Utility Complaints"
+      }
     }
   end
 

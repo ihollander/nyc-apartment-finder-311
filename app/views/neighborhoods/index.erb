@@ -4,16 +4,20 @@
       Neighborhood Info
     </h3>
     <p>
-      Congratulations! We've found <%= @neighborhoods.count %> neighborhoods within <%= @user.commute_time %> minutes of your work address:<br>
-      <strong><%= @user.work_address %></strong>
+      Congratulations! We've found <%= @neighborhoods.count %> neighborhoods within <%= @user.commute_time %> minutes of your work address: <strong><%= @user.work_address %></strong>
     </p>
     <p>
       <%= link_to 'Edit your commuting preferences', edit_profile_path %> if you'd like to see other neighborhoods.
     </p>
-    <p>
-      Select your preferred neighborhoods and criteria to find the best apartments.
-    </p>
-    <div class="ui divider"></div>
+    <div class="ui info message">
+      <div class="header">
+        Select Neighborhoods and Criteria
+      </div>
+      <p>
+        What's important to you in a neighborhood? Select from the criteria below to see statistics
+        from NYC 311 data about your selections.
+      </p>
+    </div>
     <%= form_tag result_neighborhoods_path, method: :get, class: "ui form fluid" do %>
       <div class="field">
         <%= label_tag "search[neighborhoods]", "Select neighborhoods:" %>

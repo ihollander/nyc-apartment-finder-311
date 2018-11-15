@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authorized, only: [:new, :create]
-  skip_before_action :current_user, only: [:new, :create]
+  # skip_before_action :current_user, only: [:new, :create]
   before_action :set_minute_options, only: [:new, :edit]
 
   # get '/register'
