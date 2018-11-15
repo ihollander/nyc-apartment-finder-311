@@ -3,8 +3,13 @@ class ApartmentsController < ApplicationController
 
   def index
     neighborhood = params["neighborhood"]
-    Apartment.find_or_create_from_api(neighborhood)    
-    @apartments = Apartment.joins(:neighborhood).where(neighborhoods: { name: neighborhood })
+    if neighborhood
+      Apartment.find_or_create_from_api(neighborhood)
+      @apartments = Apartment.joins(:neighborhood).where(neighborhoods: { name: neighborhood })
+    else
+      @apartments = Apartment.all
+    end
+
   end
 
   def show
@@ -19,6 +24,7 @@ class ApartmentsController < ApplicationController
     @year_built = @apartment.year_built
     @images = @apartment.images
     @description = @apartment.description
+    @trending = @apartment.price_change
   end
 
   def save_apartment

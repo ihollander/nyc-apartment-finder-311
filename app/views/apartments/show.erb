@@ -6,67 +6,139 @@
   </head>
   <body>
 
-    <h1><%= "#{@bedrooms} #{@apartment.pluralize_bedroom(@bedrooms)} Apartment in #{@apartment.neighborhood.name}" %></h1>
 
-    <%= "#{@street}," %>
-    <br>
-    <%= "#{@city}," %>
-    <br>
-    <%= "#{@state}," %>
-    <br>
-    <%= "#{@zipcode}" %>
-    <br>
-    <br>
-    <%= "#{@bedrooms} #{@apartment.pluralize_bedroom(@bedrooms)} : #{@bathrooms} #{@apartment.pluralize_bathroom(@bathrooms)} : #{@sqft} sqft" %>
-
-    <% if @year_built %>
-    <br>
-    <br>
-      Year Built: <%= @year_built %>
-    <% end %>
-
-    <br>
-    <br>
-      Value: <%= "#{@apartment.parse_value(@value)}" %>
-
-
-    <br>
-    <br>
-
-    <% if @description %>
-      Description:
-      <ol><%= @description %></ol>
-    <% end  %>
-
-    <br>
-    <br>
-
-    <div class="ui three stackable cards">
-      <% @images.each do |url| %>
-      <div class="card" style="object-fit: cover">
-        <div class="image">
-          <img src="<%= url %>">
-        </div>
-      </div>
+    <div>
+      <% if @bedrooms != 0 %>
+        <h1><%= "#{@bedrooms} Bedroom Apartment in #{@apartment.neighborhood.name}" %></h1>
+      <% else %>
+        <h1><%= "Slum in #{@apartment.neighborhood.name}" %></h1>
       <% end %>
     </div>
+    <br>
+
+    <p><%= @description %></p>
+    <br>
+    <div class="ui divider ">
+
+    </div>
+
+    <div class="ui grid container" style="margin-top:30px">
+      <div class="eight wide column" style=";border-radius:.28571429rem;" id="apartment-grid" >
+        <div class="flex-container">
+          <table class="ui very basic celled table">
+            <tbody>
+              <tr>
+                <td>Street</td>
+                <td>
+                  <%= "#{@street}," %>
+
+                </td>
+              </tr>
+              <tr>
+                <td>City</td>
+                <td>
+
+                  <%= "#{@city}," %>
+                </td>
+              </tr>
+              <tr>
+                <td>Zip</td>
+                <td>
+
+                  <%= "#{@zipcode}." %>
+                </td>
+              </tr>
+              <tr>
+                <td>Value</td>
+                <td>
+                  <% if @value  %>
+                  <%= "#{@apartment.parse_value(@value)}" %>
+                  <% if @trending %>
+                    <i class="arrow up icon" style="margin-left:10px;color:#9ACD32"></i>
+                  <% else %>
+                    <i class="arrow down icon" style="margin-left:10px;color:red"></i>
+                  <% end %>
+                <% else %>
+                  Price On Request
+                <% end %>
+              </td>
+              </tr>
+              <tr>
+                <td>Details</td>
+                <td>
+                  <%= "#{@bedrooms} Bed : #{@bathrooms} Bath : #{@sqft} sqft" %>
+              </td>
+              </tr>
 
 
+          </table>
+          </div>
+      </div>
+
+      <div class="eight wide column" style="border-radius:.28571429rem;" >
+        <div class="flex-container">
+        <div class="slideshow-container" style="max-width:100%;max-height:100%;border-radius:.28571429rem;">
+            <div>
+              <% i = 0 %>
+              <% while i < @images.length %>
+              <div class="mySlides fade" >
+                <div class="numbertext"><%= i + 1 %> / <%= @images.count %></div>
+                <img src="<%= @images[i] %>" style="width:100%;border-radius:.28571429rem;">
+              </div>
+              <% i += 1 %>
+              <% end %>
+
+              <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+              <a class="next" style="margin-right:100px" onclick="plusSlides(1)">&#10095;</a>
+
+            </div>
+          </div>
+        </div>
+        <br>
+
+      </div>
+    </div>
     <br>
-    <br>
-    <%= link_to "Back To All Apartments", apartments_path %>
-    <br>
-    <br>
-    <%= link_to "View Next", apartment_path(@apartment.id + 1) %>
-    <br>
-    <br>
-    <%= link_to "View Previous", apartment_path(@apartment.id - 1) %>
-    <br>
-    <br>
-    <%= link_to "View Full Page On Zillow", @apartment.url %>
-    <br>
-    <br>
+
+    <div class="ui divider">
+      <br>
+      <button type="button" name="button" class="ui button primary" style=>Save Listing</button>
+      <div class="" style="float:right">
+        <button type="button" name="button" class="ui button primary">Prev</button>
+        <button type="button" name="button" class="ui button primary">Next</button>
+      </div>
+    </div>
     <!-- test -->
+
+
+    <script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("dot");
+      if (n > slides.length) {slideIndex = 1}
+      if (n < 1) {slideIndex = slides.length}
+      for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";
+      dots[slideIndex-1].className += " active";
+    }
+    </script>
 
   </body>
 </html>

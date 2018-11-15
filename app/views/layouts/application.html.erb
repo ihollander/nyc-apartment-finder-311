@@ -22,16 +22,21 @@
   <body>
     <!--Page Contents-->
     <div class="pusher">
+
       <% if logged_in? %>
         <!--Nav Header-->
         <%= render 'shared/layout/header' %>
         <!--Body-->
-        <div class="ui container" style="min-height: 600px;margin-top: 50px;margin-bottom: 50px;">
+        <div class="ui container" style="min-height: 600px;margin-top: 50px;">
+        <div style="max-width: 900px;margin:0 auto">
+
           <%= yield %>
-        </div>  
+        </div>
+      </div>  
       <% else %>
         <%= yield %>
       <% end %>
+
       <!--Footer-->
       <%= render 'shared/layout/footer' %>
     </div>
