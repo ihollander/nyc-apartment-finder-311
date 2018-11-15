@@ -102,13 +102,20 @@
 
     <div class="ui divider">
       <br>
-      <button type="button" name="button" class="ui button primary" style=>Save Listing</button>
+      <%= link_to "Save Listing", @apartment, class:"ui button primary" %>
       <div class="" style="float:right">
-        <button type="button" name="button" class="ui button primary">Prev</button>
-        <button type="button" name="button" class="ui button primary">Next</button>
+        <% if Apartment.find_by(id: (@apartment.id - 1)) && Apartment.find_by(id: (@apartment.id + 1))%>
+          <%= link_to "Prev", apartment_path(@apartment.id - 1), class:"ui button primary" %>
+          <%= link_to "Next", apartment_path(@apartment.id + 1), class:"ui button primary" %>
+        <% elsif Apartment.find_by(id: (@apartment.id - 1)) %>
+          <%= link_to "Prev", apartment_path(@apartment.id - 1), class:"ui button primary" %>
+          <button type="button" name="button" class="ui button primary" style="color:white">Next</button>
+        <% elsif Apartment.find_by(id: (@apartment.id + 1)) %>
+          <button type="button" name="button" class="ui button primary" style="color:white">Prev</button>
+          <%= link_to "Next", apartment_path(@apartment.id + 1), class:"ui button primary" %>
+        <% end %>
       </div>
     </div>
-    <!-- test -->
 
 
     <script>
