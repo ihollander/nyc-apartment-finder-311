@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authorized, only: [:new, :create]
-  before_action :current_user, only: [:show, :edit, :update, :destroy]
+  skip_before_action :current_user, only: [:new, :create]
   before_action :set_minute_options, only: [:new, :edit]
 
   # get '/register'
@@ -40,6 +40,10 @@ class UsersController < ApplicationController
       flash[:errors] = @user.errors.full_messages
       redirect_to edit_profile_path
     end
+  end
+
+  def apartments
+    # todo: add saved apartments view
   end
 
   # delete '/profile'

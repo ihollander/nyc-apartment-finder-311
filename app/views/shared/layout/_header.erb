@@ -1,13 +1,28 @@
 <div id="top-nav-bar" class="ui inverted vertical center aligned segment">
   <div class="ui container">
     <div class="ui large secondary inverted pointing menu">
-      <a class="toc item"><i class="sidebar icon"></i></a>
-      <%= link_to 'Apartments', apartments_path, class: "item" %>
-      <%= link_to 'Neighborhoods', neighborhoods_path, class: "item" %>
-      <%= link_to 'Search', search_neighborhoods_path, class: "item" %>
-      <div class="right item" style="padding: 0;">
-        <%= link_to 'My Profile', profile_path, class: "item" %>
-        <%= link_to 'Log Out', logout_path, method: :delete, class: "item" %>
+      <div class="header item">
+        NYC<i class="small red heart icon"></i>311 Apartment Finder
+      </div>
+      <%= link_to apartments_path, class: "item" do %>
+        <i class="building icon"></i>
+        Apartments
+      <% end %>
+      <%= link_to neighborhoods_path, class: "item" do %>
+        <i class="map icon"></i>
+        Neighborhoods
+      <% end %>
+      <div class="ui simple dropdown right item">
+        <i class="user circle icon large"></i>
+        <i class="dropdown icon"></i>
+        <div class="left menu">
+          <%= link_to 'My Profile', profile_path, class: "item" %>
+          <%= link_to user_apartments_path, class: "item" do %>
+            Saved Apartments
+            <div class="ui teal label" style="margin-left: 3px;"><%= @user.apartments.count %></div>
+          <% end %>
+          <%= link_to 'Log Out', logout_path, method: :delete, class: "item" %>
+        </div>
       </div>
     </div>
   </div>

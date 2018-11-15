@@ -1,31 +1,30 @@
 <div class="ui grid">
-  <div class="eight wide column">
-    <div class="ui attached message">
-      <div class="header">
-        Search By Incidents
-      </div>
-      <p>
-        The following neighborhoods are within <%= @user.commute_time %> minutes of your work address, <%= @user.work_address %>.
-      </p>
-      <p>
-        Select up to <strong>five</strong> neighborhoods and <strong>five</strong> criteria to view additional details.
-      </p>
-      <p>
-        <%= link_to 'Edit your commuting preferences', edit_profile_path %> if you'd like to see other neighborhoods.
-      </p>
-    </div>
-    <%= form_tag result_neighborhoods_path, method: :get, class: "ui form attached fluid segment" do %>
+  <div class="ten wide column">
+    <h3 class="ui header">
+      Neighborhood Info
+    </h3>
+    <p>
+      Congratulations! We've found <%= @neighborhoods.count %> neighborhoods within <%= @user.commute_time %> minutes of your work address:<br>
+      <strong><%= @user.work_address %></strong>
+    </p>
+    <p>
+      <%= link_to 'Edit your commuting preferences', edit_profile_path %> if you'd like to see other neighborhoods.
+    </p>
+    <p>
+      Select your preferred neighborhoods and criteria to find the best apartments.
+    </p>
+    <div class="ui divider"></div>
+    <%= form_tag result_neighborhoods_path, method: :get, class: "ui form fluid" do %>
       <div class="field">
-        <%= label_tag "search[neighborhoods]", "Select up to 5 neighborhoods:" %>
+        <%= label_tag "search[neighborhoods]", "Select neighborhoods:" %>
         <%= collection_select :search, :neighborhoods, @neighborhoods, :id, :name, {}, { class: "ui fluid search dropdown", multiple: "" } %>
       </div>
       <div class="field">
-        <%= label_tag "search[criteria]", "Select up to 5 criteria:" %>
+        <%= label_tag "search[criteria]", "Select criteria:" %>
         <%= collection_select :search, :criteria, @criteria_options, :to_s, :to_s, {}, { class: "ui fluid search dropdown", multiple: "" } %>
       </div>
       <%= submit_tag "Search", class: "ui submit button" %>
     <% end %>
-
     <% if flash[:errors] %>
       <%= render partial: 'shared/form_errors', locals: {
         error_header: 'Search error',
@@ -33,7 +32,7 @@
       } %>
     <% end %>
   </div>
-  <div class="eight wide column">
+  <div class="six wide column">
     <%= render partial: 'map', locals: { neighborhoods: @neighborhoods } %>
   </div>
 </div>

@@ -9,6 +9,7 @@ class ApartmentsController < ApplicationController
     else
       @apartments = Apartment.all
     end
+
   end
 
   def show
