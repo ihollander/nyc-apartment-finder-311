@@ -1,33 +1,35 @@
-<div style="max-width: 600px;margin:0 auto;">
-  <div class="ui centered grid" style="margin-top:100px;">
-    <div class="column">
-      <div class="ui attached message">
-        <div class="header">
-          Login
+<div id="welcome-splash" class="ui inverted vertical masthead center aligned segment">
+  <div style="max-width: 600px;margin:0 auto;">
+    <div class="ui centered grid" style="margin-top:100px;">
+      <div class="column">
+        <div class="ui attached message">
+          <div class="header">
+            Login
+          </div>
         </div>
-      </div>
-      <%= form_tag login_path, class: "ui form attached fluid segment" do %>
-        <div class="field">
-          <%= label_tag :username %>
-          <%= text_field_tag :username %>
+        <%= form_tag login_path, class: "ui form attached fluid segment" do %>
+          <div class="field">
+            <%= label_tag :username %>
+            <%= text_field_tag :username %>
+          </div>
+          <div class="field">
+            <%= label_tag :password %>
+            <%= password_field_tag :password %>
+          </div>
+          <%= submit_tag 'Login', class: "ui submit button" %>
+        <% end %>
+        <div class="ui bottom attached warning message">
+          <i class="icon help"></i>
+          No account? <%= link_to 'Create one here', register_path %>.
         </div>
-        <div class="field">
-          <%= label_tag :password %>
-          <%= password_field_tag :password %>
-        </div>
-        <%= submit_tag 'Login', class: "ui submit button" %>
-      <% end %>
-      <div class="ui bottom attached warning message">
-        <i class="icon help"></i>
-        No account? <%= link_to 'Create one here', register_path %>.
-      </div>
 
-      <% if flash[:errors] %>
-        <%= render partial: 'shared/form_errors', locals: {
-          error_header: 'Login error',
-          error_messages: flash[:errors]
-        } %>
-      <% end %>
+        <% if flash[:errors] %>
+          <%= render partial: 'shared/form_errors', locals: {
+            error_header: 'Login error',
+            error_messages: flash[:errors]
+          } %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

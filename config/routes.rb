@@ -7,9 +7,11 @@ Rails.application.routes.draw do
   delete 'profile', to: 'users#destroy'
   get 'profile/edit', to: 'users#edit', as: 'edit_profile'
   patch 'profile/edit', to: 'users#update'
+  get 'profile/apartments', to: 'users#apartments', as: 'user_apartments'
 
-  root to: 'sessions#new'
-  post '/login', to: 'sessions#create', as: 'login'
+  root to: 'sessions#welcome'
+  get '/login', to: 'sessions#new', as: 'login'
+  post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy', as: 'logout'
   
   resources :apartments

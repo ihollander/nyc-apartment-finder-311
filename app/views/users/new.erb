@@ -1,58 +1,60 @@
-<div style="max-width: 600px;margin:0 auto;">
-  <div class="ui centered grid">
-    <div class="column">
-      <div class="ui attached message">
-        <div class="header">
-          Create Account
+<div id="welcome-splash" class="ui inverted vertical masthead center aligned segment">
+  <div style="max-width: 600px;margin:0 auto;">
+    <div class="ui centered grid">
+      <div class="column">
+        <div class="ui attached message">
+          <div class="header">
+            Create Account
+          </div>
+          <p>Please include your work address so we can find appartments in your area</p>
         </div>
-        <p>Please include your work address so we can find appartments in your area</p>
-      </div>
-      <%= form_for @user, url: register_path, html: { class: "ui form attached fluid segment" } do |f| %>
-        <h4 class="ui dividing header">Account Information</h4>
-        <div class="two fields">
-          <div class="field">
-            <%= f.label :first_name, "First Name" %>
-            <%= f.text_field :first_name %>
+        <%= form_for @user, url: register_path, html: { class: "ui form attached fluid segment" } do |f| %>
+          <h4 class="ui dividing header">Account Information</h4>
+          <div class="two fields">
+            <div class="field">
+              <%= f.label :first_name, "First Name" %>
+              <%= f.text_field :first_name %>
+            </div>
+            <div class="field">
+              <%= f.label :last_name, "Last Name" %>
+              <%= f.text_field :last_name %>
+            </div>
           </div>
           <div class="field">
-            <%= f.label :last_name, "Last Name" %>
-            <%= f.text_field :last_name %>
+            <%= f.label :username %>
+            <%= f.text_field :username %>
           </div>
+          <div class="field">
+            <%= f.label :password %>
+            <%= f.password_field :password %>
+          </div>
+          <div class="field">
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation %>
+          </div>
+          <h4 class="ui dividing header">Commuting Information</h4>
+          <div class="field">
+            <%= f.label :work_address, "Current Work Address:" %>
+            <%= f.text_area :work_address, rows: "2" %>
+          </div>
+          <div class="field">
+            <%= f.label :commute_time, "Desired Commute Time:" %>
+            <%= f.collection_select :commute_time, @minute_options, :to_s, :to_s, {}, { class: "ui selection dropdown" } %>
+          </div>
+          <%= submit_tag 'Create Account', class: "ui submit button" %>
+        <% end %>
+        <div class="ui bottom attached warning message">
+          <i class="icon help"></i>
+          Already signed up? <%= link_to 'Login here', login_path %> instead.
         </div>
-        <div class="field">
-          <%= f.label :username %>
-          <%= f.text_field :username %>
-        </div>
-        <div class="field">
-          <%= f.label :password %>
-          <%= f.password_field :password %>
-        </div>
-        <div class="field">
-          <%= f.label :password_confirmation %>
-          <%= f.password_field :password_confirmation %>
-        </div>
-        <h4 class="ui dividing header">Commuting Information</h4>
-        <div class="field">
-          <%= f.label :work_address, "Current Work Address:" %>
-          <%= f.text_area :work_address, rows: "2" %>
-        </div>
-        <div class="field">
-          <%= f.label :commute_time, "Desired Commute Time:" %>
-          <%= f.collection_select :commute_time, @minute_options, :to_s, :to_s, {}, { class: "ui selection dropdown" } %>
-        </div>
-        <%= submit_tag 'Create Account', class: "ui submit button" %>
-      <% end %>
-      <div class="ui bottom attached warning message">
-        <i class="icon help"></i>
-        Already signed up? <%= link_to 'Login here', root_path %> instead.
-      </div>
 
-      <% if flash[:errors] %>
-        <%= render partial: 'shared/form_errors', locals: {
-          error_header: 'Login error',
-          error_messages: flash[:errors]
-        } %>
-      <% end %>
+        <% if flash[:errors] %>
+          <%= render partial: 'shared/form_errors', locals: {
+            error_header: 'Login error',
+            error_messages: flash[:errors]
+          } %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
