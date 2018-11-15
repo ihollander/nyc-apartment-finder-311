@@ -3,7 +3,8 @@ class ApartmentsController < ApplicationController
 
   def index
     neighborhood = params["neighborhood"]
-    @apartments = Apartment.find_or_create_from_api(neighborhood)
+    Apartment.find_or_create_from_api(neighborhood)
+    @appartments = Apartment.find_by(neighborhood: neighborhood)
   end
 
   def show
