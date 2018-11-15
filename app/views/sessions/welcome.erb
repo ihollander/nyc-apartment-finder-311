@@ -1,0 +1,36 @@
+<div id="welcome-splash" class="ui inverted vertical masthead center aligned segment">
+  <div class="ui text container">
+    <h1 class="ui inverted header">
+      NYC <i class="small red heart icon"></i> 311 Apartment Finder
+    </h1>
+    <h2>Find your dream apartment.</h2>
+    <%= link_to login_path, class: "ui huge primary button" do %>
+      Login <i class="right arrow icon"></i>
+    <% end %>
+    <%= link_to register_path, class: "ui huge teal button" do %>
+      Sign Up <i class="right user plus icon"></i>
+    <% end %>
+  </div>
+</div>
+<div class="ui vertical stripe segment">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="eight wide column">
+        <h3 class="ui header">Shorten your commute</h3>
+        <p>Our website's algorithm integrates with the Google Maps API to find neighborhoods with the shortest commute to your job.</p>
+      </div>
+      <div class="six wide right floated column">
+        <img src="/img/map-example.png" class="ui medium bordered rounded image">
+      </div>
+    </div>
+    <div class="row">
+      <div class="six wide column">
+        <img src="/img/loud-neighbor.jpg" class="ui medium bordered rounded image">
+      </div>
+      <div class="eight wide right floated column">
+        <h3 class="ui header">Avoid problem neighborhoods</h3>
+        <p>We analyze data from New York City's 311 service to help you compare neighborhoods and avoid noisy neighbors.</p>
+      </div>
+    </div>
+  </div>
+</div>

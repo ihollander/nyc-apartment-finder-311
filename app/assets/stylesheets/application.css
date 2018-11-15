@@ -110,3 +110,23 @@ h1, h2, h3, h4, h5 {
     font-size: 1.5em;
   }
 }
+
+#welcome-splash {
+  z-index: 0;
+}
+#welcome-splash:after {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-image: url(/img/nyc-bw-map.png);
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+  z-index: -1;
+}

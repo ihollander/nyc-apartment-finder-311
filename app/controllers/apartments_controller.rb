@@ -3,8 +3,8 @@ class ApartmentsController < ApplicationController
 
   def index
     neighborhood = params["neighborhood"]
-    Apartment.find_or_create_from_api(neighborhood)
-    @appartments = Apartment.find_by(neighborhood: neighborhood)
+    Apartment.find_or_create_from_api(neighborhood)    
+    @apartments = Apartment.joins(:neighborhood).where(neighborhoods: { name: neighborhood })
   end
 
   def show

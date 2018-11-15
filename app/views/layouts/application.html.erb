@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Nyc311Fun</title>
+    <title>NYC♥311 Apartment Finder</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -22,20 +22,22 @@
   <body>
     <!--Page Contents-->
     <div class="pusher">
-      <!--Nav Header-->
-      <%= render 'shared/layout/header' if logged_in? %>
-      <!--Body-->  
-      <div class="ui container" style="min-height: 600px;margin-top: 50px;">
+      <% if logged_in? %>
+        <!--Nav Header-->
+        <%= render 'shared/layout/header' %>
+        <!--Body-->
+        <div class="ui container" style="min-height: 600px;margin-top: 50px;margin-bottom: 50px;">
+          <%= yield %>
+        </div>  
+      <% else %>
         <%= yield %>
-      </div>
+      <% end %>
       <!--Footer-->
       <%= render 'shared/layout/footer' %>
     </div>
     <script>
       //restyle all Semantic UI dropdowns
-      $('.ui.dropdown')
-        .dropdown()
-      ;
+      $('.ui.dropdown').dropdown();
     </script>
   </body>
 </html>
