@@ -15,8 +15,9 @@
       <% end %>
     </div>
     <br>
-
-    <p><%= @description %></p>
+    <% if @apartment.description %>
+    <p><%= @apartment.description %></p>
+    <% end %>
     <br>
     <div class="ui divider ">
 
@@ -77,6 +78,7 @@
 
       <div class="eight wide column" style="border-radius:.28571429rem;" >
         <div class="flex-container">
+
         <div class="slideshow-container" style="max-width:100%;max-height:100%;border-radius:.28571429rem;">
             <div>
               <% i = 0 %>
@@ -87,10 +89,10 @@
               </div>
               <% i += 1 %>
               <% end %>
-
-              <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-              <a class="next" style="margin-right:100px" onclick="plusSlides(1)">&#10095;</a>
-
+              <% if @images[0] != "https://www.gumtree.com/static/1/resources/assets/rwd/images/orphans/a37b37d99e7cef805f354d47.noimage_thumbnail.png" %>
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" style="margin-right:100px" onclick="plusSlides(1)">&#10095;</a>
+              <% end %>
             </div>
           </div>
         </div>

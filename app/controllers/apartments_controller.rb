@@ -23,7 +23,6 @@ class ApartmentsController < ApplicationController
     @bathrooms = @apartment.bathrooms
     @year_built = @apartment.year_built
     @images = @apartment.images
-    @description = @apartment.description
     @trending = @apartment.price_change
   end
 

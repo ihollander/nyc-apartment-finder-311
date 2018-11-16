@@ -4,6 +4,7 @@ class Neighborhood < ApplicationRecord
   has_many :users, through: :searches
   has_many :journeys_a, class_name: "Journey", foreign_key: "neighborhood_a_id"
   has_many :journeys_b, class_name: "Journey", foreign_key: "neighborhood_b_id"
+  has_many :apartments
 
   scope :find_by_lonlat, -> (longitude, latitude) {
     where(%{
@@ -26,6 +27,7 @@ class Neighborhood < ApplicationRecord
   end
 
   def center_latitude
+    byebug
     self.geom.centroid.y
   end
 
@@ -64,6 +66,16 @@ class Neighborhood < ApplicationRecord
     feature = factory.feature self.geom
     hash = RGeo::GeoJSON.encode feature
     hash["geometry"]["coordinates"][0][0]
+  end
+
+  def find_street
+    new_params = []
+    incidents = self.incidents.where("incidents.incident_address is not null")
+    incident = incidents.sample
+    address = incident.incident_address
+    zip = incident.zip
+    new_params.push(address, zip)
+    new_params
   end
 
 end
