@@ -1,5 +1,5 @@
 module ZillowApi
-  APP = Rails.application.credentials.zillow[:api_key]
+  APP = Rails.application.credentials.zillow[:second_key]
 
   class ListingClient
     API_URL = "http://www.zillow.com"

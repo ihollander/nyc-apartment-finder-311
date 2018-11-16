@@ -3,6 +3,79 @@ class Apartment < ApplicationRecord
     has_many :user_apartments, dependent: :destroy
     has_many :users, through: :user_apartments
 
+    def self.seed
+      Neighborhood.all.each do |neighborhood|
+        seed_logic(neighborhood)
+      end
+      puts "completed seed"
+      # test
+    end
+
+    def self.seed_logic(neighborhood)
+      @neighborhood = Neighborhood.find_by(name: neighborhood.name)
+      if Apartment.find_by(neighborhood_id: neighborhood.id) == nil
+        puts "seeding #{neighborhood.name}"
+        apartment = Apartment.find_or_create_from_api(neighborhood.name)
+
+        if apartment == nil
+          x = 0
+          second_logic(neighborhood, x)
+          byebug
+        end
+      else
+        puts "already have apartments for #{neighborhood.name}"
+      end
+    end
+
+    def self.second_logic(neighborhood, x)
+      # if Apartment.find_by(neighborhood_id: neighborhood.id) == nil
+      if x < 9
+        @client_communicator = ZillowApi::ListingClient.new
+        address = neighborhood.find_street
+        @listings = @client_communicator.get_listings(address[0], address[1])
+        byebug
+        new_listings = third_logic(@listings, neighborhood, x)
+        create_round_two(new_listings)
+      end
+    end
+
+    def self.third_logic(listings, neighborhood, x)
+      if listings["searchresults"]["message"]["code"] == "508"
+        x += 1
+        second_logic(neighborhood, x)
+      else
+        listings
+      end
+    end
+
+    def self.create_round_two(listings)
+      if listings["searchresults"]["message"]["code"] != "508" && listings["searchresults"]["message"]["code"] != "7"
+        listings = listings["searchresults"]["response"]["results"]["result"]
+        if listings.class == Array
+          listings.each do |listing|
+            apartment = Apartment.find_by(zillow_id: listing["zpid"])
+            if !apartment
+              create_apartment(listing)
+            end
+          end
+        else
+          apartment = Apartment.find_by(zillow_id: listings["zpid"])
+          if !apartment
+            create_apartment(listings)
+          end
+        end
+      end
+    end
+
+    # def test
+    #   Neighborhood.all.each do |neighborhood|
+    #     if neighborhood.appartments.count < 10
+    #       puts "re-seeding #{neighborhood}"
+    #       Apartment.find_or_create_from_api(neighborhood)
+    #     end
+    #   end
+    # end
+
     def self.find_or_create_from_api(neighborhood_name)
       hash = self.find_listings_in_neighborhood(neighborhood_name)
       listings = hash["searchresults"]["response"]["results"]["result"]
@@ -38,6 +111,8 @@ class Apartment < ApplicationRecord
           end
           self.description = hash["updatedPropertyDetails"]["response"]["homeDescription"]
         end
+      else
+        self.images << "https://www.gumtree.com/static/1/resources/assets/rwd/images/orphans/a37b37d99e7cef805f354d47.noimage_thumbnail.png"
       end
     end
 
@@ -68,8 +143,10 @@ class Apartment < ApplicationRecord
         year_built: listing["yearBuilt"],
         neighborhood_id: @neighborhood.id
       }
+
       apartment = Apartment.new(listings_hash)
       apartment.add_image_and_description
+
       if apartment.images.count != 0
         apartment.save
       end
@@ -110,7 +187,7 @@ class Apartment < ApplicationRecord
     def next
       self.class.where("id > ?", id).first
     end
-  
+
     def previous
       self.class.where("id < ?", id).last
     end

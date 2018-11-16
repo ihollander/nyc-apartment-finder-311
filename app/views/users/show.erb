@@ -8,7 +8,7 @@
 <%= link_to 'Edit Profile', edit_profile_path, class: "ui button" %>
 <h3>Saved Apartments:</h3>
 <ul>
-  <li>tk</li>
-  <li>tk</li>
-  <li>tk</li>
+  <% @apartments.each do |a| %>
+  <li><%= link_to "#{a.street}, #{a.city}, #{a.state}, #{a.zipcode}", a %></li>
+  <% end %>
 </ul>

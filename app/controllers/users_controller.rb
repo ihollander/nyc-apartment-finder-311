@@ -23,6 +23,7 @@ class UsersController < ApplicationController
 
   # get '/profile'
   def show
+    @apartments = @user.apartments
     # show user profile
   end
 
@@ -69,7 +70,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :first_name,
       :last_name,
-      :username, 
+      :username,
       :password,
       :password_confirmation,
       :work_address,
@@ -86,4 +87,4 @@ class UsersController < ApplicationController
   end
 end
 
-# 
+#
