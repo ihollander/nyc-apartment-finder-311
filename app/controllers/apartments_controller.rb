@@ -2,14 +2,17 @@ class ApartmentsController < ApplicationController
   before_action :find_apartment, only: [:show, :save_apartment]
 
   def index
-    neighborhood = params["neighborhood"]
-    if neighborhood
-      Apartment.find_or_create_from_api(neighborhood)
-      @apartments = Apartment.joins(:neighborhood).where(neighborhoods: { name: neighborhood })
+    @neighborhood = params["neighborhood"]
+    @neighborhoods = Neighborhood.all.sort_by { |n| n.name_with_borough }
+    if @neighborhood
+      @apartments = Apartment.joins(:neighborhood).where(neighborhoods: { name: @neighborhood })
+      if @apartments.count < 5
+        Apartment.find_or_create_from_api(@neighborhood)
+        @apartments = Apartment.joins(:neighborhood).where(neighborhoods: { name: @neighborhood })
+      end
     else
       @apartments = Apartment.all
     end
-
   end
 
   def show

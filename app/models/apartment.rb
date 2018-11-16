@@ -20,7 +20,6 @@ class Apartment < ApplicationRecord
         if apartment == nil
           x = 0
           second_logic(neighborhood, x)
-          byebug
         end
       else
         puts "already have apartments for #{neighborhood.name}"
@@ -33,7 +32,6 @@ class Apartment < ApplicationRecord
         @client_communicator = ZillowApi::ListingClient.new
         address = neighborhood.find_street
         @listings = @client_communicator.get_listings(address[0], address[1])
-        byebug
         new_listings = third_logic(@listings, neighborhood, x)
         create_round_two(new_listings)
       end
@@ -77,12 +75,25 @@ class Apartment < ApplicationRecord
     # end
 
     def self.find_or_create_from_api(neighborhood_name)
-      hash = self.find_listings_in_neighborhood(neighborhood_name)
-      listings = hash["searchresults"]["response"]["results"]["result"]
-      listings.each do |listing|
-        apartment = Apartment.find_by(zillow_id: listing["zpid"])
-        if !apartment
-          create_apartment(listing, neighborhood_name)
+      response_hash = self.find_listings_in_neighborhood(neighborhood_name)
+      if response_hash && response_hash["searchresults"]["message"]["code"] == "0"
+        listing = response_hash["searchresults"]["response"]["results"]["result"]
+        if listing.class == Array
+          added = 0
+          listing.each do |list|
+            if added <= 5
+              apartment = Apartment.find_by(zillow_id: list["zpid"])
+              if !apartment
+                create_apartment(list, neighborhood_name)
+              end
+            end
+          end
+          added += 1
+        else
+          apartment = Apartment.find_by(zillow_id: listing["zpid"])
+          if !apartment
+            Apartment.create_apartment(listing, neighborhood_name)
+          end
         end
       end
     end
