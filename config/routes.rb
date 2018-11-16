@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy', as: 'logout'
   
   resources :apartments
-  resources :neighborhoods, only: %i[index] do
+  resources :neighborhoods, only: %i[index show] do
     collection do
       get 'search'
       get 'result'

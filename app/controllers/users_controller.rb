@@ -35,7 +35,7 @@ class UsersController < ApplicationController
   def update
     @user.update(user_params)
     if @user.valid?
-      redirect_to profile_path
+      redirect_to neighborhoods_path
     else
       flash[:errors] = @user.errors.full_messages
       redirect_to edit_profile_path
@@ -78,7 +78,11 @@ class UsersController < ApplicationController
   end
 
   def set_minute_options
-    @minute_options = [15,30,45,60]
+    @minute_options = []
+    8.times do |i|
+      m = (i+1)*15
+      @minute_options << [m, "#{m} minutes"]
+    end
   end
 end
 

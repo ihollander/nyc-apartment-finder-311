@@ -39,7 +39,7 @@
           </div>
           <div class="field">
             <%= f.label :commute_time, "Desired Commute Time:" %>
-            <%= f.collection_select :commute_time, @minute_options, :to_s, :to_s, {}, { class: "ui selection dropdown" } %>
+            <%= f.collection_select :commute_time, @minute_options, :first, :last, {}, { class: "ui selection dropdown" } %>
           </div>
           <%= submit_tag 'Create Account', class: "ui submit button" %>
         <% end %>
@@ -58,3 +58,7 @@
     </div>
   </div>
 </div>
+
+<script>
+  $('.ui.dropdown').dropdown();
+</script>

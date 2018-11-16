@@ -3,11 +3,11 @@ class Journey < ApplicationRecord
   belongs_to :neighborhood_b, class_name: "Neighborhood"
 
   scope :within_acceptable_duration, -> (origin_id, duration_minutes) { 
-    where("neighborhood_a_id = ? and trip_duration < ?", origin_id, (duration_minutes * 60)) 
+    where("neighborhood_a_id = ? and transit_trip_duration < ?", origin_id, (duration_minutes * 60)) 
   }
 
   scope :within_acceptable_duration_reverse, -> (origin_id, duration_minutes) { 
-    where("neighborhood_b_id = ? and trip_duration < ?", origin_id, (duration_minutes * 60)) 
+    where("neighborhood_b_id = ? and transit_trip_duration < ?", origin_id, (duration_minutes * 60)) 
   }
 
   def get_trip_duration(mode)

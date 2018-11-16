@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2018_11_15_173212) do
+ActiveRecord::Schema.define(version: 2018_11_16_110315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,15 +33,15 @@ ActiveRecord::Schema.define(version: 2018_11_15_173212) do
     t.integer "zillow_id"
     t.integer "value"
     t.boolean "price_change"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "sqft"
-    t.integer "bedrooms"
     t.integer "bathrooms"
+    t.integer "bedrooms"
     t.integer "year_built"
     t.string "images", default: [], array: true
     t.string "description"
     t.integer "neighborhood_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "complaints", force: :cascade do |t|
@@ -80,6 +79,7 @@ ActiveRecord::Schema.define(version: 2018_11_15_173212) do
     t.integer "trip_duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "transit_trip_duration"
     t.index ["neighborhood_a_id", "neighborhood_b_id"], name: "index_journeys_on_neighborhood_a_id_and_neighborhood_b_id", unique: true
     t.index ["neighborhood_a_id"], name: "index_journeys_on_neighborhood_a_id"
     t.index ["neighborhood_b_id"], name: "index_journeys_on_neighborhood_b_id"
