@@ -55,6 +55,18 @@ class Incident < ApplicationRecord
     }
   end
 
+  def self.first_incident_date
+    self.first.date_opened.strftime("%B %e, %Y at %I:%M%p")
+  end
+
+  def self.last_incident_date
+    self.last.date_opened.strftime("%B %e, %Y at %I:%M%p")
+  end
+
+  def date_opened_string
+    self.date_opened.strftime("%m/%-d/%y at %I:%M%p")
+  end
+
   # returns an array of city names as strings
   def self.get_cities_from_zips(zips)
     self.by_zips(zips).select(:city).order(:city).distinct.map(&:city)

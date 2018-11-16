@@ -78,15 +78,11 @@ class Apartment < ApplicationRecord
 
     def self.find_or_create_from_api(neighborhood_name)
       hash = self.find_listings_in_neighborhood(neighborhood_name)
-      if hash["searchresults"]["message"]["code"] != "508" && hash["searchresults"]["message"]["code"] != "7"
-        listings = hash["searchresults"]["response"]["results"]["result"]
-        @neighborhood = Neighborhood.find_by(name: neighborhood_name)
-
-        listings.each do |listing|
-          apartment = Apartment.find_by(zillow_id: listing["zpid"])
-          if !apartment
-            create_apartment(listing)
-          end
+      listings = hash["searchresults"]["response"]["results"]["result"]
+      listings.each do |listing|
+        apartment = Apartment.find_by(zillow_id: listing["zpid"])
+        if !apartment
+          create_apartment(listing, neighborhood_name)
         end
       end
     end
@@ -128,8 +124,8 @@ class Apartment < ApplicationRecord
       end
     end
 
-    def self.create_apartment(listing)
-      byebug
+    def self.create_apartment(listing, neighborhood_name)
+      @neighborhood = Neighborhood.find_by(name: neighborhood_name)
       listings_hash = {
         street: listing["address"]["street"],
         zipcode: listing["address"]["zipcode"],

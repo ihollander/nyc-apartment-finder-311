@@ -1,10 +1,11 @@
 <div class="ui grid">
   <div class="ten wide column">
-    <h3 class="ui header">
+    <h2 class="ui header">
       Neighborhood Info
-    </h3>
+    </h2>
     <p>
-      Congratulations! We've found <%= @neighborhoods.count %> neighborhoods within <%= @user.commute_time %> minutes of your work address: <strong><%= @user.work_address %></strong>
+      We've found <%= @neighborhoods.count %> neighborhoods within <%= @user.commute_time %> minutes 
+      of your work address, <strong><%= @user.work_address %></strong>, via public transit.
     </p>
     <p>
       <%= link_to 'Edit your commuting preferences', edit_profile_path %> if you'd like to see other neighborhoods.
@@ -21,7 +22,7 @@
     <%= form_tag result_neighborhoods_path, method: :get, class: "ui form fluid" do %>
       <div class="field">
         <%= label_tag "search[neighborhoods]", "Select neighborhoods:" %>
-        <%= collection_select :search, :neighborhoods, @neighborhoods, :id, :name, {}, { class: "ui fluid search dropdown", multiple: "" } %>
+        <%= collection_select :search, :neighborhoods, @neighborhoods, :id, :name_with_borough, {}, { class: "ui fluid search dropdown", multiple: "" } %>
       </div>
       <div class="field">
         <%= label_tag "search[criteria]", "Select criteria:" %>
@@ -40,21 +41,3 @@
     <%= render partial: 'map', locals: { neighborhoods: @neighborhoods } %>
   </div>
 </div>
-
-<script>
-  $('.ui.form')
-    .form({
-      fields: {
-        neighborhoods: {
-          identifier: 'search[neighborhoods]',
-          rules: [
-            {
-              type   : 'minCount[1]',
-              prompt : 'Please select at least 1 neighborhood'
-            }
-          ]
-        }
-      }
-    })
-  ;
-</script>

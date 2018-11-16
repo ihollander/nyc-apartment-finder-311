@@ -2,7 +2,7 @@
   <div class="ui container">
     <div class="ui large secondary inverted pointing menu">
       <%= link_to root_path, class: "header item" do %>
-        NYC<i class="small red heart icon"></i>311 Apartment Finder
+        NYC<i class="small red heart icon" style="margin: 0;"></i>311 Apartment Finder
       <% end %>
       <%= link_to apartments_path, class: "item" do %>
         <i class="building icon"></i>
@@ -16,7 +16,7 @@
         <i class="user circle icon large"></i>
         <i class="dropdown icon"></i>
         <div class="left menu">
-          <%= link_to 'My Profile', profile_path, class: "item" %>
+          <%= link_to 'My Profile', edit_profile_path, class: "item" %>
           <%= link_to user_apartments_path, class: "item" do %>
             Saved Apartments
             <div class="ui teal label" style="margin-left: 3px;"><%= @user.apartments.count %></div>

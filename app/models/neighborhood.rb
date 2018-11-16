@@ -2,6 +2,7 @@ class Neighborhood < ApplicationRecord
   has_many :incidents
   has_many :searches
   has_many :users, through: :searches
+  has_many :apartments
   has_many :journeys_a, class_name: "Journey", foreign_key: "neighborhood_a_id"
   has_many :journeys_b, class_name: "Journey", foreign_key: "neighborhood_b_id"
   has_many :apartments
@@ -12,9 +13,13 @@ class Neighborhood < ApplicationRecord
     } % [longitude, latitude])
   }
 
+  def name_with_borough
+    "#{self.borough} | #{self.name}"
+  end
+
   def commute_time(origin_neighborhood_id)
     journey = Journey.find_by(neighborhood_a_id: self.id, neighborhood_b_id: origin_neighborhood_id) || Journey.find_by(neighborhood_b_id: self.id, neighborhood_a_id: origin_neighborhood_id)
-    journey.trip_duration / 60
+    journey.transit_trip_duration / 60
   end
 
   def self.find_by_address(address)
@@ -36,7 +41,7 @@ class Neighborhood < ApplicationRecord
   end
 
   def center_latitude_longitude_string
-    "#{self.center_latitude}, #{self.center_longitude}"
+    "#{self.center_latitude},#{self.center_longitude}"
   end
 
   def random_zip

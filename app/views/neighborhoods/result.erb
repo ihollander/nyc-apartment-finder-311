@@ -4,11 +4,13 @@
 </h2>
 <p>
   Here are your neighborhoods and the 311 incident information you 
-  requested.
+  requested. Check the match percentage to see which neighborhoods most closely match your criteria.
 </p>
+<p>Displaying incident datas from <%= Incident.first_incident_date %> to <%= Incident.last_incident_date %>.</p>
 <div class="ui divider"></div>
 <div class="ui divided items">
   <% @neighborhoods.each do |neighborhood| %>
+    <% match_percentage = @criteria_hash[neighborhood.id.to_s][:match_percentage] %>
     <div class="item">
       <div class="middle aligned image">
         <img src="<%= neighborhood.static_map_url %>">
@@ -16,6 +18,9 @@
       <div class="content">
         <a class="header"><%= neighborhood.name %></a>
         <div class="meta">
+          <div class="ui <%= match_percentage < 50 ? "red" : "green" %> label">
+            <%= p "#{match_percentage} % overall match" %>
+          </div>
           <div class="ui label">
             <i class="map outline icon"></i>
             <%= neighborhood.borough %>
@@ -23,9 +28,6 @@
           <div class="ui label">
             <i class="clock outline icon"></i>
             <%= "#{neighborhood.commute_time(@user.neighborhood_id)} min. commute" %>
-          </div>
-          <div class="ui label">
-            <%= p "#{@match_percentages[neighborhood.id.to_s]} % match" %>
           </div>
         </div>
         <div class="description">
@@ -38,20 +40,21 @@
               </tr>
             </thead>
             <tbody>
-              <% @criteria.each do |criteria| %>
-                <% scope_method = Incident.criteria_hash[criteria.to_sym]["method"] %>
-                <% incidents = neighborhood.incidents.send(scope_method) %>
-                <% max = Incident.joins(:neighborhood).select("neighborhoods.name").send(scope_method).group("neighborhoods.name").count.max_by {|k,v| v} %>
+              <% @criteria_hash[neighborhood.id.to_s][:criteria].each do |criteria| %>
                 <tr>
-                  <td class="eight wide column"><%= Incident.criteria_hash[criteria.to_sym]["show_alias"] %></td>
-                  <td><%= incidents.count %></td>
-                  <td><%= (1 - (incidents.count.to_f / max[1])) * 100 %></td>
+                  <td class="eight wide column"><%= criteria[:alias] %></td>
+                  <td><%= criteria[:incidents] %></td>
+                  <td><%= number_to_percentage(criteria[:incident_percentage], precision: 0)  %></td>
                 </tr>
               <% end %>
             </tbody>
           </table>
         </div>
         <div class="extra">
+          <%= link_to neighborhood, { class: "ui primary small button" } do %>
+            <i class="circle info icon"></i>
+            View Neighborhood Details
+          <% end %>
           <%= link_to apartments_path(neighborhood: neighborhood.name), { class: "ui primary small button" } do %>
             View Apartments
             <i class="right chevron icon"></i>
@@ -65,7 +68,7 @@
 <br>
 <h2 class="ui horizontal divider header">
   <i class="bar chart icon"></i>
-  311 Incidents Comparison
+  311 Incident Comparison
 </h2>
 <p>
   Based on your criteria, here is a comparison of 311 incident reports for 

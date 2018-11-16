@@ -1,0 +1,28 @@
+<h2><%= @neighborhood.name %> 311 Report</h2>
+<p>Click an incident category below to view details on incident reports.</p>
+<p>Displaying incidents from <%= Incident.first_incident_date %> to <%= Incident.last_incident_date %>.</p>
+<div class="ui fluid styled accordion">
+  <% @complaint_types.each do |complaint,count| %>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <span class="ui red circular label" style="margin-right: 1em;"><%= count %></span><%= complaint %>
+    </div>
+    <div class="content">
+      <table class="ui compact very basic celled table">
+        <tbody>
+          <% Incident.joins(:complaint).where("complaints.name = ? and incidents.neighborhood_id = ?", complaint, @neighborhood.id).each do |incident| %>
+            <tr>
+              <td class="four wide column"><%= incident.date_opened_string %></td>
+              <td><%= incident.descriptor %></td>
+              <td><%= incident.incident_address  %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  $(".ui.accordion").accordion();
+</script>

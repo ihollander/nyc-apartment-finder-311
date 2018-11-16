@@ -186,7 +186,7 @@ h1, h2, h3, h4, h5 {
 
 
 .active, .dot:hover {
-  background-color: #717171;
+  /* background-color: #717171; */
 }
 
 /* Fading animation */
