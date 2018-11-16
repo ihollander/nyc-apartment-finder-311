@@ -2,6 +2,7 @@ class Neighborhood < ApplicationRecord
   has_many :incidents
   has_many :searches
   has_many :users, through: :searches
+  has_many :apartments
   has_many :journeys_a, class_name: "Journey", foreign_key: "neighborhood_a_id"
   has_many :journeys_b, class_name: "Journey", foreign_key: "neighborhood_b_id"
 
